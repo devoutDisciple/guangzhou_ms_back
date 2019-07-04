@@ -13,10 +13,10 @@ module.exports = {
 				appid: config.appid,	//自己的小程序appid
 				mch_id: config.mch_id,	//自己的商户号
 				nonce_str: PayUtil.getNonceStr(),	//随机字符串
-				body: "雀送订餐",// 商品描述
+				body: "贝沃思美食",// 商品描述
 				out_trade_no: orderid, // 用户订单号
 				total_fee: Number(req.query.total_fee) * 100, //商品价格 单位分
-				spbill_create_ip: "139.196.124.152", // 发起访问ip
+				spbill_create_ip: "47.106.208.52", // 发起访问ip
 				//异步接收微信支付结果通知的回调地址，通知url必须为外网可访问的url，不能携带参数。
 				notify_url: "https://www.kdsou.com/kdchange/service_bak/notify.php",
 				trade_type: "JSAPI",// 默认 交易类型
@@ -47,14 +47,12 @@ module.exports = {
 							<sign>${sign}</sign>
 						</xml>`;
 			//发起请求，获取微信支付的一些必要信息
-			console.log(formData);
 			request({
 				url: reqUrl,
 				method: "POST",
 				body: formData
 			}, function(error, response, body) {
 				if(error) {
-					console.log(error);
 					return res.send(resultMessage.success("支付失败"));
 				} else if(!error && response.statusCode == 200) {
 					xml2js.parseString(body,function(err,result){

@@ -10,7 +10,7 @@ module.exports = {
 	getAll: async (req, res) => {
 		try {
 			let name = req.query.name || "";
-			let type = await CampusModel.findAll({
+			let campus = await CampusModel.findAll({
 				where: {
 					is_delete: {
 						[Op.not]: ["2"]
@@ -25,7 +25,7 @@ module.exports = {
 				]
 			});
 			let result = [];
-			type.map(item => {
+			campus.map(item => {
 				result.push(item.dataValues);
 			});
 			res.send(resultMessage.success(result));

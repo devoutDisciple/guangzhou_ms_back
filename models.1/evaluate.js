@@ -6,7 +6,7 @@ module.exports = function(sequelize) {
 			allowNull: true,
 			primaryKey: true
 		},
-		goods_id: {
+		shopid: {
 			type: Sequelize.INTEGER(11),
 			allowNull: true
 		},

@@ -1,32 +1,34 @@
 const Sequelize = require("sequelize");
 module.exports = function(sequelize) {
-	return sequelize.define("campus", {
+	return sequelize.define("car", {
 		id: {
 			type: Sequelize.INTEGER(11),
 			allowNull: true,
 			primaryKey: true
 		},
-		name: {
-			type: Sequelize.STRING(45),
-			allowNull: true,
-			defaultValue: "学校名称"
-		},
-		floor: {
-			type: Sequelize.STRING(8000),
+		openid: {
+			type: Sequelize.STRING(255),
 			allowNull: true
 		},
-		sort: {
+		goods_id: {
 			type: Sequelize.INTEGER(11),
-			allowNull: true,
-			defaultValue: 1
+			allowNull: true
 		},
-		is_delete: {
+		num: {
 			type: Sequelize.INTEGER(11),
 			allowNull: true,
 			defaultValue: "1"
+		},
+		create_time: {
+			type: Sequelize.STRING(255),
+			allowNull: true
+		},
+		is_delete: {
+			type: Sequelize.INTEGER(11),
+			allowNull: true
 		}
 	}, {
-		tableName: "campus",
+		tableName: "car",
 		timestamps: false
 	});
 };

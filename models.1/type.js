@@ -1,17 +1,18 @@
 const Sequelize = require("sequelize");
 module.exports = function(sequelize) {
-	return sequelize.define("free", {
+	return sequelize.define("type", {
 		id: {
 			type: Sequelize.INTEGER(11),
-			allowNull: false,
+			allowNull: true,
 			primaryKey: true
 		},
-		goods_id: {
-			type: Sequelize.INTEGER(11),
-			allowNull: true
+		name: {
+			type: Sequelize.STRING(45),
+			allowNull: true,
+			defaultValue: "美食"
 		},
-		shop_id: {
-			type: Sequelize.INTEGER(11),
+		url: {
+			type: Sequelize.STRING(255),
 			allowNull: true
 		},
 		campus: {
@@ -23,17 +24,13 @@ module.exports = function(sequelize) {
 			allowNull: true,
 			defaultValue: "1"
 		},
-		total: {
-			type: Sequelize.INTEGER(11),
-			allowNull: true
-		},
 		is_delete: {
 			type: Sequelize.INTEGER(11),
 			allowNull: true,
 			defaultValue: "1"
 		}
 	}, {
-		tableName: "free",
+		tableName: "type",
 		timestamps: false
 	});
 };

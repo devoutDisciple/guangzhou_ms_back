@@ -7,8 +7,9 @@ const goodsController = require("./goodsController");
 const payController = require("./payController");
 const orderController = require("./orderController");
 const evaluateController = require("./evaluateController");
-const freeController = require("./freeController");
-const timeController = require("./timeController");
+const todayController = require("./todayController");
+const carController = require("./carController");
+const collectionController = require("./collectionController");
 const accoutController = require("./accoutController");
 const router = (app) => {
 	// 用户
@@ -21,6 +22,12 @@ const router = (app) => {
 	app.use("/type", typeController);
 	// 位置信息
 	app.use("/position", positionController);
+	// 今日推荐
+	app.use("/today", todayController);
+	// 购物车
+	app.use("/car", carController);
+	// 收藏
+	app.use("/collection", collectionController);
 	// 商店相关
 	app.use("/shop", shopController);
 	// 商品相关
@@ -31,9 +38,5 @@ const router = (app) => {
 	app.use("/order", orderController);
 	// 评价相关
 	app.use("/evaluate", evaluateController);
-	// 免费霸王餐
-	app.use("/free", freeController);
-	// 限时抢购
-	app.use("/time", timeController);
 };
 module.exports = router;

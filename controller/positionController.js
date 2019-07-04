@@ -6,7 +6,6 @@ const positionService = require("../services/positionService");
 router.get("/all", (req, res) => {
 	positionService.getAll(req, res);
 });
-
 // 增加校区
 router.post("/add", (req, res) => {
 	positionService.add(req, res);
@@ -21,5 +20,4 @@ router.post("/delete", (req, res) => {
 router.post("/update", (req, res) => {
 	positionService.update(req, res);
 });
-
 module.exports = router;
