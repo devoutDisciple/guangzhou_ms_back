@@ -23,7 +23,12 @@ module.exports = {
 			});
 			let result = [];
 			swiper.map(item => {
-				result.push(item.dataValues);
+				let value = item.dataValues;
+				let obj = {
+					id: value.id,
+					name: value.name,
+				};
+				result.push(obj);
 			});
 			res.send(resultMessage.success(result));
 		} catch (error) {
