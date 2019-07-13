@@ -64,6 +64,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+	// 增加店铺
 	addShop: async(req, res) => {
 		try {
 			let body = req.body;
@@ -73,7 +74,6 @@ module.exports = {
 					username: username
 				}
 			});
-			console.log(account);
 			if(account) return res.send(resultMessage.errorMsg("已有该用户"));
 			let shop = await ShopModel.create(body);
 			await AccountModel.create({username, password, shopid: shop.id});
@@ -83,6 +83,40 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+	// 修改店铺
+	updateShop: async(req, res) => {
+		try {
+			console.log(req, 11);
+			let body = req.body;
+			await ShopModel.update(body, {
+				where: {
+					id: body.id
+				}
+			});
+			res.send(resultMessage.success("success"));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+	// 开店或者关店
+	closeOrOpen: async(req, res) => {
+		try {
+			let id = req.body.id, status = req.body.status;
+			await ShopModel.update({
+				status: status,
+			},{
+				where: {
+					id: id
+				}
+			});
+			res.send(resultMessage.success("success"));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+	// 删除店铺
 	deleteShop: async(req, res) => {
 		try {
 			let id = req.body.id;

@@ -22,6 +22,16 @@ router.post("/delete", (req, res) => {
 	shopService.deleteShop(req, res);
 });
 
+// 确认开店或者关店
+router.post("/closeOrOpen", (req, res) => {
+	shopService.closeOrOpen(req, res);
+});
+
+// 修改店铺
+router.post("/update", (req, res) => {
+	shopService.updateShop(req, res);
+});
+
 
 
 module.exports = router;
