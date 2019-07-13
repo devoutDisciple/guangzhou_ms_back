@@ -3,22 +3,26 @@ module.exports = function(sequelize) {
 	return sequelize.define("account", {
 		id: {
 			type: Sequelize.INTEGER(11),
-			allowNull: false,
+			allowNull: true,
 			primaryKey: true
 		},
 		username: {
 			type: Sequelize.STRING(255),
-			allowNull: false,
+			allowNull: true,
 			primaryKey: true
 		},
 		password: {
 			type: Sequelize.STRING(255),
-			allowNull: false,
+			allowNull: true,
 			primaryKey: true
+		},
+		shopid: {
+			type: Sequelize.INTEGER(11),
+			allowNull: true,
 		},
 		role: {
 			type: Sequelize.INTEGER(10),
-			allowNull: false,
+			allowNull: true,
 			defaultValue: "2"
 		},
 		is_delete: {

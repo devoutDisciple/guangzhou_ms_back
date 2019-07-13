@@ -4,6 +4,7 @@ module.exports = function(sequelize) {
 		id: {
 			type: Sequelize.INTEGER(11),
 			allowNull: true,
+			autoIncrement: true,
 			primaryKey: true
 		},
 		name: {
@@ -13,6 +14,11 @@ module.exports = function(sequelize) {
 		url: {
 			type: Sequelize.STRING(255),
 			allowNull: true
+		},
+		status: {
+			type: Sequelize.INTEGER(11),
+			allowNull: true,
+			defaultValue: "1"
 		},
 		typeid: {
 			type: Sequelize.INTEGER(11),
@@ -30,7 +36,8 @@ module.exports = function(sequelize) {
 		},
 		sales: {
 			type: Sequelize.INTEGER(11),
-			allowNull: true
+			allowNull: true,
+			defaultValue: "0"
 		},
 		desc: {
 			type: Sequelize.STRING(45),
