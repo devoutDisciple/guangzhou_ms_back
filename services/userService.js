@@ -7,6 +7,16 @@ const user = require("../models/user");
 const UserModel = user(sequelize);
 
 module.exports = {
+	// 获取所有用户
+	all: async (req, res) => {
+		try {
+			let list = await UserModel.findAll();
+			res.send(resultMessage.success(list));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
 	// 用户登录
 	register: (req, res) => {
 		try {

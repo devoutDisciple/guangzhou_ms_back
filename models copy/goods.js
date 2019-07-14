@@ -8,7 +8,7 @@ module.exports = function(sequelize) {
 		},
 		name: {
 			type: Sequelize.STRING(45),
-			allowNull: true
+			allowNull: false
 		},
 		title: {
 			type: Sequelize.STRING(800),
@@ -16,7 +16,7 @@ module.exports = function(sequelize) {
 		},
 		url: {
 			type: Sequelize.STRING(255),
-			allowNull: true
+			allowNull: false
 		},
 		desc: {
 			type: Sequelize.STRING(8000),
@@ -39,11 +39,7 @@ module.exports = function(sequelize) {
 		},
 		shopid: {
 			type: Sequelize.STRING(45),
-			allowNull: true
-		},
-		type: {
-			type: Sequelize.STRING(45),
-			allowNull: true
+			allowNull: false
 		},
 		package_cost: {
 			type: Sequelize.STRING(45),
@@ -52,6 +48,11 @@ module.exports = function(sequelize) {
 		specification: {
 			type: Sequelize.STRING(800),
 			allowNull: true
+		},
+		sort: {
+			type: Sequelize.INTEGER(11),
+			allowNull: true,
+			defaultValue: "1"
 		},
 		is_delete: {
 			type: Sequelize.INTEGER(11),

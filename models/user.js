@@ -8,7 +8,7 @@ module.exports = function(sequelize) {
 		},
 		openid: {
 			type: Sequelize.STRING(255),
-			allowNull: true,
+			allowNull: false,
 			unique: true
 		},
 		name: {
@@ -29,6 +29,10 @@ module.exports = function(sequelize) {
 		},
 		address: {
 			type: Sequelize.STRING(10000),
+			allowNull: true
+		},
+		create_time: {
+			type: Sequelize.BIGINT,
 			allowNull: true
 		},
 		is_delete: {

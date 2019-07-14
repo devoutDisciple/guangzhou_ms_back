@@ -13,10 +13,16 @@ router.post("/add", async (req, res) => {
 			await shopService.addSales(req, res);
 		}
 	}
-
 });
+
 // 获取订单通过openid  getList
 router.get("/getListByOpenid", (req, res) => {
-	orderService.getList(req, res);
+	orderService.getListByOpenid(req, res);
 });
+
+// 个人消费记录求和
+router.get("/getAllMoneyByOpenid", (req, res) => {
+	orderService.sumMoney(req, res);
+});
+
 module.exports = router;

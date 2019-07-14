@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const userService = require("../services/userService");
 
+// 获取所有用户
+router.get("/all", (req, res) => {
+	userService.all(req, res);
+});
 // 用户注册，返回openid
 router.get("/register", (req, res) => {
 	userService.register(req, res);
