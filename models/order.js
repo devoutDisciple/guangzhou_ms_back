@@ -28,7 +28,7 @@ module.exports = function(sequelize) {
 			defaultValue: "0"
 		},
 		order_time: {
-			type: Sequelize.STRING(45),
+			type: Sequelize.BIGINT(45),
 			allowNull: true
 		},
 		status: {

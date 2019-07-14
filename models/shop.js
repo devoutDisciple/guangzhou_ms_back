@@ -65,11 +65,6 @@ module.exports = function(sequelize) {
 			allowNull: true,
 			defaultValue: "23:59"
 		},
-		package_cost: {
-			type: Sequelize.STRING(45),
-			allowNull: true,
-			defaultValue: "1"
-		},
 		invite: {
 			type: Sequelize.INTEGER(11),
 			allowNull: true

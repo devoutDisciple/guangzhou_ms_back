@@ -4,14 +4,29 @@ const evaluate = require("../models/evaluate");
 const evaluateModel = evaluate(sequelize);
 
 module.exports = {
-	// 增加评价
-	addEvaluate: async (req, res) => {
-		let body = req.body;
+	// 通过用户openid查看该用户评价列表
+	getEvaluateByOpenid: async (req, res) => {
 		try {
-			// 增加评价
-			await evaluateModel.create(body);
-			// 更改订单状态
-			return "success";
+			// 获取评价
+			let evaluates = await evaluateModel.findAll({
+				where: {
+					openid: req.query.openid
+				},
+				order: [
+					["create_time", "DESC"],
+				],
+			});
+			let result = [];
+			evaluates.map(item => {
+				result.push({
+					goods_id: item.goods_id,
+					desc: item.desc,
+					shop_grade: item.shop_grade,
+					sender_grade: item.sender_grade,
+					create_time: item.create_time
+				});
+			});
+			res.send(resultMessage.success(result));
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));

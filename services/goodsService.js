@@ -23,6 +23,21 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+	// 更改商品的今日推荐
+	updateToday: async (req, res) => {
+		let params = req.query;
+		try {
+			await GoodsModel.update({today: params.type}, {
+				where: {
+					id: params.id
+				}
+			});
+			res.send(resultMessage.success("success"));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
 	// 根据id获取商品详情
 	getById: async (req, res) => {
 		let id = req.query.id;

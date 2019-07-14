@@ -32,11 +32,6 @@ module.exports = function(sequelize) {
 			allowNull: true,
 			defaultValue: "0"
 		},
-		discount: {
-			type: Sequelize.STRING(11),
-			allowNull: true,
-			defaultValue: "0"
-		},
 		shopid: {
 			type: Sequelize.STRING(45),
 			allowNull: false
@@ -48,6 +43,11 @@ module.exports = function(sequelize) {
 		specification: {
 			type: Sequelize.STRING(800),
 			allowNull: true
+		},
+		today: {
+			type: Sequelize.INTEGER(11),
+			allowNull: true,
+			defaultValue: 2
 		},
 		sort: {
 			type: Sequelize.INTEGER(11),
