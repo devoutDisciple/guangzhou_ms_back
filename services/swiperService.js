@@ -6,7 +6,8 @@ const swiper = require("../models/swiper");
 const SwiperModel = swiper(sequelize);
 const shop = require("../models/shop");
 const shopModel = shop(sequelize);
-let preUrl = "http://localhost:3001/";
+const AppConfig = require("../config/AppConfig");
+let preUrl = AppConfig.swiperPreUrl;
 
 SwiperModel.belongsTo(shopModel, { foreignKey: "shopid", targetKey: "id", as: "shopDetail",});
 

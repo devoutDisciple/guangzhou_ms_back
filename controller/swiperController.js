@@ -3,7 +3,8 @@ const router = express.Router();
 const swiperService = require("../services/swiperService");
 const multer  = require("multer");
 const ObjectUtil = require("../util/ObjectUtil");
-let filePath = "/Users/zhangzhen/program/guanzhou/guangzhou_ms/guangzhou_ms_back/public";
+let AppConfig = require("../config/AppConfig");
+let filePath = AppConfig.swiperImgFilePath;
 
 let filename = "";
 // 使用硬盘存储模式设置存放接收到的文件的路径以及文件名

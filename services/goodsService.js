@@ -2,6 +2,8 @@ const resultMessage = require("../util/resultMessage");
 const sequelize = require("../dataSource/MysqlPoolClass");
 const goods = require("../models/goods");
 const GoodsModel = goods(sequelize);
+const AppConfig = require("../config/AppConfig");
+let preUrl = AppConfig.goodsPreUrl;
 
 module.exports = {
 	// 获取同一家商店的所有食物
@@ -33,6 +35,15 @@ module.exports = {
 				}
 			});
 			res.send(resultMessage.success("success"));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+	uploadDescImg: async (req, res, filename) => {
+		try {
+			let filePath = preUrl + filename;
+			res.send(resultMessage.success(filePath));
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));
