@@ -5,6 +5,10 @@ const accountModel = account(sequelize);
 
 function loginMiddleware(req, res, next) {
 	let cookies = req.signedCookies;
+	// uploadDescImg
+	// if(req.url == "/goods/uploadDescImg") {
+	// 	return next();
+	// }
 	// 判断用户cookie是否正确
 	if(cookies && cookies.userinfo) {
 		let userinfo = cookies.userinfo, username = userinfo.split("_#$%^%$#_")[0], password = userinfo.split("_#$%^%$#_")[1];
