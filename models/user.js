@@ -32,7 +32,7 @@ module.exports = function(sequelize) {
 			allowNull: true
 		},
 		create_time: {
-			type: Sequelize.BIGINT,
+			type: Sequelize.DATE,
 			allowNull: true
 		},
 		is_delete: {

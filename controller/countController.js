@@ -6,6 +6,10 @@ const countService = require("../services/countService");
 router.get("/num", (req, res) => {
 	countService.getCount(req, res);
 });
+// 获取会员曲线
+router.get("/users", (req, res) => {
+	countService.getUsers(req, res);
+});
 // // 获取销售总额
 // router.get("/sales/money", (req, res) => {
 // 	countService.getSalesMoney(req, res);

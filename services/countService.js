@@ -53,5 +53,26 @@ module.exports = {
 			return res.send(resultMessage.error({}));
 		}
 	},
+	// 获取会员总量
+	getUsers: async (req, res) => {
+		try {
+			// 获取用户数量
+			// let users = sequelize.query("SELECT * FROM user", { model: userModel }).then(function(userModel){
+			// 	console.log(userModel);
+			// 	// 每条记录都是一个Project 实例
+			// 	res.send(resultMessage.success(users));
+			// select * from `user` where DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(create_time);
+			// select * from `user` where DATE_SUB(CURDATE(), INTERVAL 1 MONTH) <= date(create_time);
+			sequelize.query("SELECT * FROM `user` where DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(create_time);", { type: sequelize.QueryTypes.SELECT})
+				.then(function(users) {
+					// 并不需要在这spread 展开结果，因为所返回的只有所查询的结果
+					res.send(resultMessage.success(users));
+				});
+
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error({}));
+		}
+	},
 
 };
