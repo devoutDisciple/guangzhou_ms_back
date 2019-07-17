@@ -54,19 +54,13 @@ router.post("/add", upload2.single("file"), (req, res) => {
 router.post("/update", upload2.single("file"), (req, res) => {
 	goodsService.update(req, res, filename);
 });
-
 // 删除商品
 router.post("/delete", (req, res) => {
 	goodsService.delete(req, res);
 });
-
-// 根据商品id获取商品详情 无用
-router.get("/getById", (req, res) => {
-	goodsService.getById(req, res);
-});
-// 指定id的商品增加销量 无用
-router.post("/addSales", (req, res) => {
-	goodsService.getByShopId(req, res);
+// 获取所有今日推荐商品
+router.get("/getAllToday", (req, res) => {
+	goodsService.getAllToday(req, res);
 });
 
 

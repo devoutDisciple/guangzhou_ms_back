@@ -39,7 +39,7 @@ module.exports = function(sequelize) {
 			allowNull: true
 		},
 		create_time: {
-			type: Sequelize.STRING(45),
+			type: Sequelize.BIGINT(45),
 			allowNull: true
 		},
 		is_delete: {

@@ -6,6 +6,9 @@ const AppConfig = require("../config/AppConfig");
 const fs = require("fs"); // 引入fs模块
 let preUrl = AppConfig.goodsPreUrl;
 let goodsImgFilePath = AppConfig.goodsImgFilePath;
+const shop = require("../models/shop");
+const ShopModel = shop(sequelize);
+GoodsModel.belongsTo(ShopModel, { foreignKey: "shopid", targetKey: "id", as: "shopDetail",});
 
 module.exports = {
 	// 获取同一家商店的所有食物
@@ -135,6 +138,38 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+	// 获取所有今日推荐商品
+	getAllToday: async (req, res) => {
+		try {
+			let goods = await GoodsModel.findAll({
+				where: {
+					today: 1
+				},
+				include: [{
+					model: ShopModel,
+					as: "shopDetail",
+				}],
+				order: [
+					["sort", "DESC"],
+				]
+			});
+			let result = [];
+			goods.map(item => {
+				let obj = item.dataValues;
+				result.push({
+					id: obj.id,
+					name: obj.name,
+					shopid: obj.shopid,
+					url: obj.url,
+					shopName: obj.shopDetail.name
+				});
+			});
+			res.send(resultMessage.success(result));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
 	// 根据id获取商品详情
 	getById: async (req, res) => {
 		let id = req.query.id;
@@ -150,38 +185,4 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
-	// 根据商品id获取商品
-	getByGoodsId: async (req, res) => {
-		let id = req.query.id;
-		try {
-			let goods = await GoodsModel.findOne({
-				where: {
-					id: id
-				}
-			});
-			res.send(resultMessage.success(goods));
-		} catch (error) {
-			console.log(error);
-			return {};
-		}
-	},
-	// 增加不同商品的销量
-	addSales: async (req, res) => {
-		let body = req.body;
-		let goodIds = body.goodIds;
-		try {
-			goodIds.map(async (item) => {
-				await GoodsModel.increment(["sales"], {
-					by: item.num,
-					where: {
-						id: item.id
-					}
-				});
-			});
-			return "success";
-		} catch (error) {
-			console.log(error);
-			return res.send(resultMessage.error([]));
-		}
-	}
 };

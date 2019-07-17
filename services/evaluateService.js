@@ -2,8 +2,44 @@ const resultMessage = require("../util/resultMessage");
 const sequelize = require("../dataSource/MysqlPoolClass");
 const evaluate = require("../models/evaluate");
 const evaluateModel = evaluate(sequelize);
+const goods = require("../models/goods");
+const GoodsModel = goods(sequelize);
+evaluateModel.belongsTo(GoodsModel, { foreignKey: "goods_id", targetKey: "id", as: "goodsDetail",});
 
 module.exports = {
+	// 获取所有用户评价
+	getAll: async (req, res) => {
+		try {
+			// 获取评价
+			let evaluates = await evaluateModel.findAll({
+				include: [{
+					model: GoodsModel,
+					as: "goodsDetail",
+				}],
+				order: [
+					["create_time", "DESC"],
+				],
+			});
+			let result = [];
+			evaluates.map(item => {
+				result.push({
+					id: item.id,
+					goods_id: item.goods_id,
+					goodsName: item.goodsDetail.name,
+					orderid: item.orderid,
+					username: item.username,
+					desc: item.desc,
+					shop_grade: item.shop_grade,
+					sender_grade: item.sender_grade,
+					create_time: item.create_time
+				});
+			});
+			res.send(resultMessage.success(result));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
 	// 通过用户openid查看该用户评价列表
 	getEvaluateByOpenid: async (req, res) => {
 		try {
