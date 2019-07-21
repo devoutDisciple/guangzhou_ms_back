@@ -21,7 +21,6 @@ app.use(sessionParser({
 	"name": "session_id"    // 在浏览器中生成cookie的名称key，默认是connect.sid
 }));
 app.use(express.static(path.join(__dirname, "./public")));
-// app.use(express.static(path.join(__dirname, "./public/goods")));
 // parse application/json
 app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded
@@ -50,6 +49,6 @@ app.use(loginMiddleware);
 controller(app);
 
 // // 监听3001端口
-app.listen(3001, () => {
-	console.log(chalk.yellow("server is listenning 3001"));
+app.listen(80, () => {
+	console.log(chalk.yellow("server is listenning 80"));
 });

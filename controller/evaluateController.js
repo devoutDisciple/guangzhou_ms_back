@@ -7,14 +7,14 @@ router.get("/getAll", (req, res) => {
 	evaluateService.getAll(req, res);
 });
 
-// // 根据商店id获取评价
-// router.get("/getEvaluateByGoodsId", (req, res) => {
-// 	evaluateService.getEvaluateByGoodsId(req, res);
-// });
+// 根据商店id获取评价
+router.get("/getEvaluateByGoodsId", (req, res) => {
+	evaluateService.getEvaluateByGoodsId(req, res);
+});
 
-// // 获取用户评价 getEvaluateByOpenid
-// router.get("/getEvaluateByOpenid", (req, res) => {
-// 	evaluateService.getEvaluateByOpenid(req, res);
-// });
+// 获取用户评价 getEvaluateByOpenid
+router.get("/getEvaluateByOpenid", (req, res) => {
+	evaluateService.getEvaluateByOpenid(req, res);
+});
 
 module.exports = router;
