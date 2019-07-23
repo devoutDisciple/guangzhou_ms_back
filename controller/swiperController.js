@@ -14,8 +14,8 @@ var storage = multer.diskStorage({
 		cb(null, filePath);
 	},
 	filename: function (req, file, cb) {
-		filename = ObjectUtil.getName() + "-" + Date.now();
-		// 将保存文件名设置为 时间戳 + 文件原始名，比如 151342376785-123.jpg
+		// 将保存文件名设置为 随机字符串 + 时间戳名，比如 JFSDJF323423-1342342323.jpg
+		filename = ObjectUtil.getName() + "-" + Date.now() + ".jpg";
 		cb(null, filename);
 	}
 });

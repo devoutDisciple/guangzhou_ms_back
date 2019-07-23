@@ -7,6 +7,8 @@ const fs = require("fs"); // 引入fs模块
 let preUrl = AppConfig.goodsPreUrl;
 let goodsImgFilePath = AppConfig.goodsImgFilePath;
 const shop = require("../models/shop");
+let filePath = AppConfig.goodsImgFilePath;
+const images = require("images");
 const ShopModel = shop(sequelize);
 GoodsModel.belongsTo(ShopModel, { foreignKey: "shopid", targetKey: "id", as: "shopDetail",});
 
@@ -54,6 +56,9 @@ module.exports = {
 		try {
 			let filePath = preUrl + filename;
 			res.send(resultMessage.success(filePath));
+			images(`${filePath}/${filename}`).save(`${filePath}/${filename}`, {
+				quality : 20
+			});
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));
@@ -77,6 +82,9 @@ module.exports = {
 			filename ? params.url = preUrl + filename : null;
 			await GoodsModel.create(params);
 			res.send(resultMessage.success("success"));
+			images(`${filePath}/${filename}`).save(`${filePath}/${filename}`, {
+				quality : 20
+			});
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));
@@ -104,6 +112,9 @@ module.exports = {
 				}
 			});
 			res.send(resultMessage.success("success"));
+			images(`${filePath}/${filename}`).save(`${filePath}/${filename}`, {
+				quality : 20
+			});
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));

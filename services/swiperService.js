@@ -8,6 +8,8 @@ const shop = require("../models/shop");
 const shopModel = shop(sequelize);
 const AppConfig = require("../config/AppConfig");
 let preUrl = AppConfig.swiperPreUrl;
+let filePath = AppConfig.swiperImgFilePath;
+const images = require("images");
 
 SwiperModel.belongsTo(shopModel, { foreignKey: "shopid", targetKey: "id", as: "shopDetail",});
 
@@ -50,7 +52,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
-	add: async (req, res, filePath) => {
+	add: async (req, res, filename) => {
 		try {
 			let body = req.body;
 			let params = {
@@ -58,28 +60,35 @@ module.exports = {
 				campus: body.campus,
 				sort: body.sort,
 			};
-			filePath ? params.url = preUrl + filePath : null;
+			console.log(filename, 222);
+			filename ? params.url = preUrl + filename : null;
 			await SwiperModel.create(params);
 			res.send(resultMessage.success("success"));
+			images(`${filePath}/${filename}`).save(`${filePath}/${filename}`, {
+				quality : 20
+			});
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));
 		}
 	},
-	update: async (req, res, filePath) => {
+	update: async (req, res, filename) => {
 		try {
 			let body = req.body;
 			let params = {
 				shopid: body.shopid,
 				sort: body.sort
 			};
-			filePath ? params.url = preUrl + filePath : null;
+			filename ? params.url = preUrl + filename : null;
 			await SwiperModel.update(params, {
 				where: {
 					id: body.id
 				}
 			});
 			res.send(resultMessage.success("success"));
+			images(`${filePath}/${filename}`).save(`${filePath}/${filename}`, {
+				quality : 20
+			});
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));

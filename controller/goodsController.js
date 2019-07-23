@@ -14,25 +14,12 @@ var storage = multer.diskStorage({
 		cb(null, filePath);
 	},
 	filename: function (req, file, cb) {
+		// 将保存文件名设置为 随机字符串 + 时间戳名，比如 JFSDJF323423-1342342323.jpg
 		filename = ObjectUtil.getName() + "-" + Date.now() + ".jpg";
-		// 将保存文件名设置为 时间戳 + 文件原始名，比如 151342376785-123.jpg
 		cb(null, filename);
 	}
 });
 let upload = multer({ dest: filePath, storage: storage });
-// 使用硬盘存储模式设置存放接收到的文件的路径以及文件名
-var storage2 = multer.diskStorage({
-	destination: function (req, file, cb) {
-		// 接收到文件后输出的保存路径（若不存在则需要创建）
-		cb(null, filePath);
-	},
-	filename: function (req, file, cb) {
-		filename = ObjectUtil.getName() + "-" + Date.now();
-		// 将保存文件名设置为 时间戳 + 文件原始名，比如 151342376785-123.jpg
-		cb(null, filename);
-	}
-});
-let upload2 = multer({ dest: filePath, storage: storage2 });
 
 // 上传描述图片
 router.post("/uploadDescImg", upload.single("file"), (req, res) => {
@@ -47,11 +34,11 @@ router.get("/updateToday", (req, res) => {
 	goodsService.updateToday(req, res);
 });
 // 新增商品
-router.post("/add", upload2.single("file"), (req, res) => {
+router.post("/add", upload.single("file"), (req, res) => {
 	goodsService.add(req, res, filename);
 });
 // 修改商品
-router.post("/update", upload2.single("file"), (req, res) => {
+router.post("/update", upload.single("file"), (req, res) => {
 	goodsService.update(req, res, filename);
 });
 // 删除商品

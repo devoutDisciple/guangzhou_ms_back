@@ -2,7 +2,7 @@ module.exports = {
 	username		: 	"root",
 	// 服务器
 	password		: 	"QAZwsx!@#$1234",
-	host			:  	"localhost",
+	host			:  	"47.106.208.52",
 	// 本地
 	// password		: 	"admin",
 	// host			:  	"localhost",

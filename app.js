@@ -48,7 +48,12 @@ app.use(loginMiddleware);
 // 路由 controller层
 controller(app);
 
-// // 监听3001端口
-app.listen(80, () => {
-	console.log(chalk.yellow("server is listenning 80"));
+// // 监听3001端口  线上
+// app.listen(80, () => {
+// 	console.log(chalk.yellow("server is listenning 80"));
+// });
+
+// // 监听3001端口  本地
+app.listen(3001, () => {
+	console.log(chalk.yellow("server is listenning 3001"));
 });
