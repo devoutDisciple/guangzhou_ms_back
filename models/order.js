@@ -10,6 +10,10 @@ module.exports = function(sequelize) {
 			type: Sequelize.STRING(255),
 			allowNull: true
 		},
+		shopid: {
+			type: Sequelize.INTEGER(11),
+			allowNull: true
+		},
 		order_list: {
 			type: Sequelize.STRING(10000),
 			allowNull: false

@@ -17,10 +17,11 @@ function loginMiddleware(req, res, next) {
 				username: username
 			}
 		}).then(user => {
-			if(username == user.username && password == user.password && req.url == "/account/isLogin") {
+			if(username == user.username && password == user.password && req.path == "/account/isLogin") {
 				return res.send(resultMessage.success({
 					username: user.username,
-					role: user.role
+					role: user.role,
+					shopid: user.shopid
 				}));
 			}
 			if(username == user.username && password == user.password) return next();

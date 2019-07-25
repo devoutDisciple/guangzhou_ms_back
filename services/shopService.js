@@ -76,7 +76,7 @@ module.exports = {
 			});
 			if(account) return res.send(resultMessage.errorMsg("已有该用户"));
 			let shop = await ShopModel.create(body);
-			await AccountModel.create({username, password, shopid: shop.id});
+			await AccountModel.create({username, password, shopid: shop.id, role: 2});
 			res.send(resultMessage.success("success"));
 		} catch (error) {
 			console.log(error);

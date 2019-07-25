@@ -22,8 +22,6 @@ module.exports = {
 					username: username
 				}
 			});
-			console.log(user);
-			console.log(username, password);
 			if(!user || password != user.password) return res.send(resultMessage.specilError(400, "用户名或密码错误!"));
 			let value = `${username}_#$%^%$#_${password}`;
 			res.cookie(

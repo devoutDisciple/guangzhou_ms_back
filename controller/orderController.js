@@ -16,6 +16,10 @@ router.get("/getListByOpenid", (req, res) => {
 router.get("/getAllMoneyByOpenid", (req, res) => {
 	orderService.sumMoney(req, res);
 });
+// 商店数据汇总 getDataByShopid
+router.get("/getDataByShopid", (req, res) => {
+	orderService.getDataByShopid(req, res);
+});
 
 
 module.exports = router;

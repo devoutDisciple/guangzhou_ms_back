@@ -94,7 +94,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
-	// 获取订单
+	// 获取订单 所有订单
 	getAll: async (req, res) => {
 		try {
 			let list = await orderModel.findAll({
@@ -121,6 +121,27 @@ module.exports = {
 				result.push(obj);
 			});
 			res.send(resultMessage.success(result));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+
+	// 获取商店的数据汇总
+	getDataByShopid: async (req, res) => {
+		try {
+			// 订单总量
+			let orderNum = await orderModel.count({
+				where: {
+					shopid: req.query.id
+				}
+			});
+			let orderPrice = await orderModel.sum("total_price", {
+				where: {
+					shopid: req.query.id
+				}
+			});
+			res.send(resultMessage.success({orderNum, orderPrice}));
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));
