@@ -55,6 +55,42 @@ module.exports = {
 		}
 	},
 
+	// 获取订单 通过商店id
+	getListByShopid: async (req, res) => {
+		let shopid = req.query.shopid;
+		try {
+			let list = await orderModel.findAll({
+				where: {
+					shopid: shopid
+				},
+				include: [{
+					model: UserModel,
+					as: "userDetail",
+				}],
+				order: [
+					["order_time", "DESC"],
+				]
+			});
+			console.log(list);
+			let result = [];
+			list.map(item => {
+				let obj = {
+					id: item.id,
+					total_price: item.total_price,
+					discount_price: item.discount_price,
+					order_time: item.order_time,
+					status: item.status,
+					username: item.userDetail.username,
+					phone: item.userDetail.phone
+				};
+				result.push(obj);
+			});
+			res.send(resultMessage.success(result));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
 	// 增加订单
 	addOrder: async (req, res) => {
 		try {
@@ -129,19 +165,77 @@ module.exports = {
 
 	// 获取商店的数据汇总
 	getDataByShopid: async (req, res) => {
+		let shopid = req.query.shopid;
 		try {
 			// 订单总量
 			let orderNum = await orderModel.count({
 				where: {
-					shopid: req.query.id
+					shopid: shopid
 				}
 			});
 			let orderPrice = await orderModel.sum("total_price", {
 				where: {
-					shopid: req.query.id
+					shopid: shopid
 				}
 			});
-			res.send(resultMessage.success({orderNum, orderPrice}));
+			// 今天订单数据汇总
+			let todayNum = await sequelize.query("select count(id) as count from `order` where to_days(order_time) = to_days(now()) and shopid = ?",
+				{ replacements: [shopid], type: sequelize.QueryTypes.SELECT });
+			let todayMoney = await sequelize.query("select sum(total_price) as count from `order` where to_days(order_time) = to_days(now()) and shopid = ?",
+				{ replacements: [shopid], type: sequelize.QueryTypes.SELECT });
+			console.log(todayNum, todayMoney);
+			res.send(resultMessage.success({orderNum, orderPrice, todayNum, todayMoney}));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+	// 获取商店销售数量的汇总
+	getSalesByShopid: async (req, res) => {
+		let shopid = req.query.shopid;
+		let type = req.query.type;
+		// type可能为 1-本周数据 2-本月数据 3-全部数据
+		let str = "";
+		// 查询过去七天，以天为单位
+		if(type == 1) {
+			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, count(id) count from `order` where DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(order_time) and shopid=? group by days order by days DESC;";
+		}
+		// 查询过去一个月，以天为单位
+		if(type == 2) {
+			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, count(id) count from `order` WHERE DATE_FORMAT(order_time, '%Y%m' ) = DATE_FORMAT(CURDATE( ),'%Y%m') and shopid=? group by days order by days DESC;";
+		}
+		// 查询全部数据
+		if(type == 3) str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, count(id) count from `order` where shopid = ? group by days order by days DESC;";
+		try {
+			sequelize.query(str, { replacements: [shopid], type: sequelize.QueryTypes.SELECT }).then(function(projects) {
+				res.send(resultMessage.success(projects));
+			});
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+
+	// 获取商店销售额的数据汇总
+	getMoneyByShopid: async (req, res) => {
+		let shopid = req.query.shopid;
+		let type = req.query.type;
+		// type可能为 1-本周数据 2-本月数据 3-全部数据
+		let str = "";
+		// 查询过去七天，以天为单位
+		if(type == 1) {
+			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, sum(total_price) as money from `order` where DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(order_time) and shopid=? group by days order by days DESC;";
+		}
+		// 查询过去一个月，以天为单位
+		if(type == 2) {
+			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, sum(total_price) as money from `order` WHERE DATE_FORMAT(order_time, '%Y%m' ) = DATE_FORMAT(CURDATE( ),'%Y%m') and shopid=? group by days order by days DESC;";
+		}
+		// 查询全部数据
+		if(type == 3) str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, sum(total_price) as money from `order` where shopid = ? group by days order by days DESC;";
+		try {
+			sequelize.query(str, { replacements: [shopid], type: sequelize.QueryTypes.SELECT }).then(function(projects) {
+				res.send(resultMessage.success(projects));
+			});
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));
