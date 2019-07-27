@@ -10,6 +10,8 @@ const carController = require("./carController");
 const collectionController = require("./collectionController");
 const accoutController = require("./accoutController");
 const countController = require("./countController");
+const billController = require("./billController");
+
 const router = (app) => {
 	// 数据汇总
 	app.use("/count", countController);
@@ -33,6 +35,8 @@ const router = (app) => {
 	app.use("/pay", payController);
 	// 订单相关
 	app.use("/order", orderController);
+	// 提现相关
+	app.use("/bill", billController);
 	// 评价相关
 	app.use("/evaluate", evaluateController);
 };

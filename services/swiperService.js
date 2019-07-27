@@ -60,7 +60,6 @@ module.exports = {
 				campus: body.campus,
 				sort: body.sort,
 			};
-			console.log(filename, 222);
 			filename ? params.url = preUrl + filename : null;
 			await SwiperModel.create(params);
 			res.send(resultMessage.success("success"));

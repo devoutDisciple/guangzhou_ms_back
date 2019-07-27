@@ -20,10 +20,8 @@ module.exports = {
 	// 用户登录
 	register: (req, res) => {
 		try {
-			console.log(req.query);
 			let query = req.query;
 			let appid = query.appid, AppSecret = query.AppSecret, code = query.code, avatarUrl = query.avatarUrl, name = query.name;
-			console.log(appid, AppSecret, code, avatarUrl, name);
 			request
 				.get(`https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${AppSecret}&js_code=${code}&grant_type=authorization_code`,
 					function(error, response, body) {
@@ -37,8 +35,7 @@ module.exports = {
 								openid: openid,
 								name: name,
 								avatarUrl: avatarUrl,
-							}).then(data => {
-								console.log(data);
+							}).then(() => {
 								res.send(resultMessage.success({
 									data: openid
 								}));

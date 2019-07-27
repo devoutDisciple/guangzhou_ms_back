@@ -20,7 +20,6 @@ module.exports = {
 					goods_id: body.goods_id,
 				},
 			});
-			console.log(originCarItem);
 			if(originCarItem) {
 				return res.send(resultMessage.success("have one"));
 			}

@@ -86,7 +86,6 @@ module.exports = {
 	// 修改店铺
 	updateShop: async(req, res) => {
 		try {
-			console.log(req, 11);
 			let body = req.body;
 			await ShopModel.update(body, {
 				where: {

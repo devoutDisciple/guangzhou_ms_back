@@ -88,7 +88,6 @@ module.exports = {
 					goods_id: goods_id
 				}
 			});
-			console.log(sumEvaluate);
 			let result = [];
 			evaluates.map(item => {
 				result.push(item.dataValues);

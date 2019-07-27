@@ -17,7 +17,6 @@ module.exports = {
 					openid
 				}
 			});
-			console.log(money);
 			if(!money) money = 0;
 			return res.send(resultMessage.success(money));
 		} catch (error) {
@@ -71,7 +70,6 @@ module.exports = {
 					["order_time", "DESC"],
 				]
 			});
-			console.log(list);
 			let result = [];
 			list.map(item => {
 				let obj = {
@@ -96,7 +94,6 @@ module.exports = {
 		try {
 			let body = req.body;
 			let orderList = JSON.parse(body.orderList);
-			console.log(orderList.length);
 			await orderList.map(async (item) => {
 				await orderModel.create({
 					openid: body.openid,
@@ -183,13 +180,13 @@ module.exports = {
 				{ replacements: [shopid], type: sequelize.QueryTypes.SELECT });
 			let todayMoney = await sequelize.query("select sum(total_price) as count from `order` where to_days(order_time) = to_days(now()) and shopid = ?",
 				{ replacements: [shopid], type: sequelize.QueryTypes.SELECT });
-			console.log(todayNum, todayMoney);
 			res.send(resultMessage.success({orderNum, orderPrice, todayNum, todayMoney}));
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 获取商店销售数量的汇总
 	getSalesByShopid: async (req, res) => {
 		let shopid = req.query.shopid;
