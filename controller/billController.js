@@ -17,4 +17,9 @@ router.get("/getAllByShopid", (req, res) => {
 	billService.getAllByShopid(req, res);
 });
 
+// 修改数据状态 modifyBillById
+router.post("/modifyBillById", (req, res) => {
+	billService.modifyBillById(req, res);
+});
+
 module.exports = router;

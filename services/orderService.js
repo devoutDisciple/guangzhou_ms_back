@@ -72,6 +72,11 @@ module.exports = {
 			});
 			let result = [];
 			list.map(item => {
+				let address = JSON.parse(item.userDetail.address) || [];
+				let userAddress = "";
+				address.map(point => {
+					if(point.default) userAddress = `${point.campus} ${point.floor}`;
+				});
 				let obj = {
 					id: item.id,
 					total_price: item.total_price,
@@ -79,7 +84,8 @@ module.exports = {
 					order_time: item.order_time,
 					status: item.status,
 					username: item.userDetail.username,
-					phone: item.userDetail.phone
+					phone: item.userDetail.phone,
+					userAddress: userAddress
 				};
 				result.push(obj);
 			});
@@ -89,6 +95,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 增加订单
 	addOrder: async (req, res) => {
 		try {
@@ -112,21 +119,21 @@ module.exports = {
 	},
 
 	// 更改订单的状态
-	updateStatus: async (req, res, params) => {
-		// let body = req.body;
+	updateStatus: async (req, res) => {
+		let body = req.body;
 		try {
-			// await evaluateModel.create(body);
-			await orderModel.update({status: params.status}, {
+			await orderModel.update({status: body.status}, {
 				where: {
-					id: params.orderid
+					id: body.id
 				}
 			});
-			res.send(resultMessage.success([]));
+			res.send(resultMessage.success("success"));
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 获取订单 所有订单
 	getAll: async (req, res) => {
 		try {

@@ -2,6 +2,11 @@ const express = require("express");
 const router = express.Router();
 const shopService = require("../services/shopService");
 
+// 通过商店id获取商店数据
+router.get("/getShopByShopid", (req, res) => {
+	shopService.getShopByShopid(req, res);
+});
+
 // 获取所有商店信息为了下拉框
 router.get("/getAllForSelect", (req, res) => {
 	shopService.getAllForSelect(req, res);

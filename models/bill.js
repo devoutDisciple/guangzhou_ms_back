@@ -6,6 +6,10 @@ module.exports = function(sequelize) {
 			allowNull: true,
 			primaryKey: true
 		},
+		code: {
+			type: Sequelize.STRING(255),
+			allowNull: false
+		},
 		shop_id: {
 			type: Sequelize.INTEGER(11),
 			allowNull: false

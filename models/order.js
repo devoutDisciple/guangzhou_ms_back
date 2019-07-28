@@ -38,7 +38,7 @@ module.exports = function(sequelize) {
 		status: {
 			type: Sequelize.STRING(45),
 			allowNull: true,
-			defaultValue: "5"
+			defaultValue: "1"
 		},
 		is_delete: {
 			type: Sequelize.INTEGER(11),

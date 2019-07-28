@@ -33,6 +33,7 @@ module.exports = {
 			);  //signed 表示对cookie加密
 			res.send(resultMessage.success({
 				username: user.username,
+				shopid: user.shopid,
 				role: user.role
 			}));
 		} catch (error) {

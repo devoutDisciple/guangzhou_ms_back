@@ -6,6 +6,7 @@ const bill = require("../models/bill");
 const billModel = bill(sequelize);
 const order = require("../models/order");
 const orderModel = order(sequelize);
+const PayUtil = require("../util/PayUtil");
 
 module.exports = {
 	// 查看商店提现金额
@@ -41,6 +42,7 @@ module.exports = {
 	addBill: async (req, res) => {
 		try {
 			let body = req.body;
+			body.code = PayUtil.getNonceStr();
 			await billModel.create(body);
 			res.send(resultMessage.success("success"));
 		} catch (error) {
@@ -62,6 +64,21 @@ module.exports = {
 				]
 			});
 			res.send(resultMessage.success(result));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+	// 修改订单状态
+	modifyBillById: async (req, res) => {
+		try {
+			let {id, status} = req.body;
+			await billModel.update({status: status}, {
+				where: {
+					id: id
+				}
+			});
+			res.send(resultMessage.success("success"));
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));

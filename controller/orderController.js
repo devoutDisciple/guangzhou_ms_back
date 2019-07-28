@@ -17,6 +17,11 @@ router.get("/getListByShopid", (req, res) => {
 	orderService.getListByShopid(req, res);
 });
 
+// 改变订单状态
+router.post("/updateStatus", (req, res) => {
+	orderService.updateStatus(req, res);
+});
+
 // 个人消费记录求和
 router.get("/getAllMoneyByOpenid", (req, res) => {
 	orderService.sumMoney(req, res);

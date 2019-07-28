@@ -8,6 +8,20 @@ const account = require("../models/account");
 const AccountModel = account(sequelize);
 
 module.exports = {
+	// 通过商店id获取商店数据
+	getShopByShopid: async (req, res) => {
+		try {
+			let shop = await ShopModel.findOne({
+				where: {
+					id: req.query.id
+				}
+			});
+			res.send(resultMessage.success(shop));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
 	// 获取所有商店列表
 	getAllForSelect: async (req, res) => {
 		try {
