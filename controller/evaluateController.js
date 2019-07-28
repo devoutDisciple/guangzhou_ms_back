@@ -7,7 +7,7 @@ router.get("/getAll", (req, res) => {
 	evaluateService.getAll(req, res);
 });
 
-// 根据商店id获取评价
+// 根据商品id获取评价
 router.get("/getEvaluateByGoodsId", (req, res) => {
 	evaluateService.getEvaluateByGoodsId(req, res);
 });
@@ -15,6 +15,11 @@ router.get("/getEvaluateByGoodsId", (req, res) => {
 // 获取用户评价 getEvaluateByOpenid
 router.get("/getEvaluateByOpenid", (req, res) => {
 	evaluateService.getEvaluateByOpenid(req, res);
+});
+
+// 通过商店id获取商品评价 getEvaluateByShopId
+router.get("/getEvaluateByShopId", (req, res) => {
+	evaluateService.getEvaluateByShopId(req, res);
 });
 
 module.exports = router;

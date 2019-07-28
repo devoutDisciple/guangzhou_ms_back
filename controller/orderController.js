@@ -32,9 +32,24 @@ router.get("/getDataByShopid", (req, res) => {
 	orderService.getDataByShopid(req, res);
 });
 
+// 全部的数据汇总 getDataByShopid
+router.get("/getData", (req, res) => {
+	orderService.getData(req, res);
+});
+
+// 获取全部商店销售数量的汇总
+router.get("/getSales", (req, res) => {
+	orderService.getSales(req, res);
+});
+
 // 获取商店销售数量的汇总
 router.get("/getSalesByShopid", (req, res) => {
 	orderService.getSalesByShopid(req, res);
+});
+
+// 获取全部的销售额的数据汇总
+router.get("/getMoney", (req, res) => {
+	orderService.getMoney(req, res);
 });
 
 // 获取商店销售额的数据汇总

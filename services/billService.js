@@ -7,8 +7,35 @@ const billModel = bill(sequelize);
 const order = require("../models/order");
 const orderModel = order(sequelize);
 const PayUtil = require("../util/PayUtil");
+const shop = require("../models/shop");
+const ShopModel = shop(sequelize);
+billModel.belongsTo(ShopModel, { foreignKey: "shop_id", targetKey: "id", as: "shopDetail",});
 
 module.exports = {
+	// 查看全部提现金额
+	// 查看商店提现金额
+	getBillMoneyReady: async (req, res) => {
+		try {
+			// 商店总金额
+			let allMoney = await orderModel.sum("total_price");
+			// 已经提现金额
+			let alreadyMoney = await billModel.sum("money", {
+				where: {
+					status: {
+						[Op.not]: ["2"]
+					},
+				}
+			});
+			// 剩余可提现金额
+			let resMoney = Number(allMoney) - Number(alreadyMoney);
+			res.send(resultMessage.success({
+				alreadyMoney, resMoney
+			}));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
 	// 查看商店提现金额
 	getBillMoneyReadyByShopid: async (req, res) => {
 		try {
@@ -79,6 +106,39 @@ module.exports = {
 				}
 			});
 			res.send(resultMessage.success("success"));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+	// 获取所有提现记录
+	getAllBill: async (req, res) => {
+		try {
+			let bill = await billModel.findAll({
+				include: [{
+					model: ShopModel,
+					as: "shopDetail",
+				}],
+				order: [
+					// will return `name`  DESC 降序  ASC 升序
+					["create_time", "DESC"],
+				]
+			});
+			let result = [];
+			bill.map(item => {
+				result.push({
+					id: item.id,
+					code: item.code,
+					shopName: item.shopDetail.name,
+					type: item.type,
+					account: item.account,
+					money: item.money,
+					status: item.status,
+					create_time: item.create_time,
+					modify_time: item.modify_time
+				});
+			});
+			res.send(resultMessage.success(result));
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));
