@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const swiperService = require("../services/swiperService");
+const adverService = require("../services/adverService");
 const multer  = require("multer");
 const ObjectUtil = require("../util/ObjectUtil");
 let AppConfig = require("../config/AppConfig");
@@ -21,24 +21,14 @@ var storage = multer.diskStorage({
 });
 let upload = multer({ dest: filePath, storage: storage });
 
-// 获取所有轮播图的list /swiper/all
-router.get("/all", (req, res) => {
-	swiperService.getAll(req, res);
+// 获取广告图
+router.get("/getAll", (req, res) => {
+	adverService.getAll(req, res);
 });
 
-// 新增轮播图
-router.post("/add", upload.single("file"), (req, res) => {
-	swiperService.add(req, res, filename);
-});
-
-// 编辑轮播图
-router.post("/update", upload.single("file"), (req, res) => {
-	swiperService.update(req, res, filename);
-});
-
-// 删除
-router.post("/delete", (req, res) => {
-	swiperService.delete(req, res);
+// 修改信息
+router.post("/modify", upload.single("file"), (req, res) => {
+	adverService.modify(req, res, filename);
 });
 
 module.exports = router;

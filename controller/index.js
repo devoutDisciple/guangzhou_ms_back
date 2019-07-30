@@ -11,6 +11,7 @@ const collectionController = require("./collectionController");
 const accoutController = require("./accoutController");
 const countController = require("./countController");
 const billController = require("./billController");
+const adverController = require("./adverController");
 
 const router = (app) => {
 	// 数据汇总
@@ -19,6 +20,8 @@ const router = (app) => {
 	app.use("/user", userController);
 	// 角色
 	app.use("/account", accoutController);
+	// 广告
+	app.use("/adver", adverController);
 	// 轮播图
 	app.use("/swiper", swiperController);
 	// 位置信息

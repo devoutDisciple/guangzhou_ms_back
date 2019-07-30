@@ -1,39 +1,31 @@
 const Sequelize = require("sequelize");
 module.exports = function(sequelize) {
-	return sequelize.define("car", {
+	return sequelize.define("adver", {
 		id: {
 			type: Sequelize.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true
 		},
-		openid: {
+		url: {
 			type: Sequelize.STRING(255),
-			allowNull: true
+			allowNull: false
 		},
 		shop_id: {
-			type: Sequelize.INTEGER(11),
+			type: Sequelize.INTEGER(255),
 			allowNull: true
 		},
 		goods_id: {
-			type: Sequelize.INTEGER(11),
+			type: Sequelize.INTEGER(255),
 			allowNull: true
 		},
-		num: {
-			type: Sequelize.INTEGER(11),
+		status: {
+			type: Sequelize.INTEGER(255),
 			allowNull: true,
 			defaultValue: "1"
-		},
-		create_time: {
-			type: Sequelize.STRING(255),
-			allowNull: true
-		},
-		is_delete: {
-			type: Sequelize.INTEGER(11),
-			allowNull: true
 		}
 	}, {
-		tableName: "car",
+		tableName: "adver",
 		timestamps: false
 	});
 };

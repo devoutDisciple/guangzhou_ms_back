@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 module.exports = function(sequelize) {
-	return sequelize.define("swiper", {
+	return sequelize.define("adver", {
 		id: {
 			type: Sequelize.INTEGER(11),
 			allowNull: false,
@@ -9,28 +9,19 @@ module.exports = function(sequelize) {
 		},
 		url: {
 			type: Sequelize.STRING(255),
+			allowNull: false
+		},
+		goods_id: {
+			type: Sequelize.INTEGER(255),
 			allowNull: true
 		},
-		shopid: {
-			type: Sequelize.STRING(45),
-			allowNull: true
-		},
-		campus: {
-			type: Sequelize.STRING(45),
-			allowNull: true
-		},
-		sort: {
-			type: Sequelize.INTEGER(11),
-			allowNull: true,
-			defaultValue: "0"
-		},
-		is_delete: {
-			type: Sequelize.INTEGER(11),
+		status: {
+			type: Sequelize.INTEGER(255),
 			allowNull: true,
 			defaultValue: "1"
 		}
 	}, {
-		tableName: "swiper",
+		tableName: "adver",
 		timestamps: false
 	});
 };

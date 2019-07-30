@@ -25,26 +25,37 @@ let upload = multer({ dest: filePath, storage: storage });
 router.post("/uploadDescImg", upload.single("file"), (req, res) => {
 	goodsService.uploadDescImg(req, res, filename);
 });
+
 // 根据商店id获取商品
 router.get("/getByShopId", (req, res) => {
 	goodsService.getByShopId(req, res);
 });
+
+// 根据商店id获取食品简介  getDescGoodsByShopId
+router.get("/getDescGoodsByShopId", (req, res) => {
+	goodsService.getDescGoodsByShopId(req, res);
+});
+
 // 更改今日推荐
 router.get("/updateToday", (req, res) => {
 	goodsService.updateToday(req, res);
 });
+
 // 新增商品
 router.post("/add", upload.single("file"), (req, res) => {
 	goodsService.add(req, res, filename);
 });
+
 // 修改商品
 router.post("/update", upload.single("file"), (req, res) => {
 	goodsService.update(req, res, filename);
 });
+
 // 删除商品
 router.post("/delete", (req, res) => {
 	goodsService.delete(req, res);
 });
+
 // 获取所有今日推荐商品
 router.get("/getAllToday", (req, res) => {
 	goodsService.getAllToday(req, res);

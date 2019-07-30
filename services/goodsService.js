@@ -36,6 +36,34 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
+	// 获取商店食品的简介
+	getDescGoodsByShopId: async (req, res) => {
+		let shopid = req.query.shopid;
+		try {
+			let goods = await GoodsModel.findAll({
+				where: {
+					shopid: shopid
+				},
+				order: [
+					// will return `name`  DESC 降序  ASC 升序
+					["sort", "DESC"],
+				]
+			});
+			let result = [];
+			goods.map(item => {
+				result.push({
+					id: item.id,
+					name: item.name
+				});
+			});
+			res.send(resultMessage.success(result));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+
 	// 更改商品的今日推荐
 	updateToday: async (req, res) => {
 		let params = req.query;
@@ -51,6 +79,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 上传商品描述图片
 	uploadDescImg: async (req, res, filename) => {
 		try {
@@ -64,6 +93,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 新增商品
 	add: async (req, res, filename) => {
 		try {
@@ -90,6 +120,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 修改商品
 	update: async (req, res, filename) => {
 		try {
@@ -120,6 +151,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 删除商品
 	delete: async (req, res) => {
 		try {
@@ -149,6 +181,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 获取所有今日推荐商品
 	getAllToday: async (req, res) => {
 		try {
@@ -181,6 +214,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 根据id获取商品详情
 	getById: async (req, res) => {
 		let id = req.query.id;
