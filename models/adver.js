@@ -11,10 +11,6 @@ module.exports = function(sequelize) {
 			type: Sequelize.STRING(255),
 			allowNull: false
 		},
-		shop_id: {
-			type: Sequelize.INTEGER(255),
-			allowNull: true
-		},
 		goods_id: {
 			type: Sequelize.INTEGER(255),
 			allowNull: true
