@@ -22,6 +22,11 @@ router.post("/updateStatus", (req, res) => {
 	orderService.updateStatus(req, res);
 });
 
+// 批量更改订单状态  updateMoreStatus
+router.post("/updateMoreStatus", (req, res) => {
+	orderService.updateMoreStatus(req, res);
+});
+
 // 个人消费记录求和
 router.get("/getAllMoneyByOpenid", (req, res) => {
 	orderService.sumMoney(req, res);

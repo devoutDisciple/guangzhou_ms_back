@@ -7,4 +7,5 @@ sequelize-auto -o "./models" -d sequelize_auto_test -h localhost -u my_username 
 
 sequelize-auto -o "./models" -d guangzhou -h localhost -u root -p 3306 -x admin
 
+
 项目中用到了shelljs以及commander...

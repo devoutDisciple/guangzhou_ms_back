@@ -24,6 +24,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 获取订单 通过 openid
 	getListByOpenid: async (req, res) => {
 		let openid = req.query.openid;
@@ -72,11 +73,11 @@ module.exports = {
 			});
 			let result = [];
 			list.map(item => {
-				let address = JSON.parse(item.userDetail.address) || [];
-				let userAddress = "";
-				address.map(point => {
-					if(point.default) userAddress = `${point.campus} ${point.floor}`;
-				});
+				// let address = JSON.parse(item.userDetail.address) || [];
+				// let userAddress = "";
+				// address.map(point => {
+				// 	if(point.default) userAddress = `${point.campus} ${point.floor}`;
+				// });
 				let obj = {
 					id: item.id,
 					total_price: item.total_price,
@@ -84,8 +85,10 @@ module.exports = {
 					order_time: item.order_time,
 					status: item.status,
 					username: item.userDetail.username,
-					phone: item.userDetail.phone,
-					userAddress: userAddress
+					people: item.people,
+					phone: item.phone,
+					address: item.address,
+					userPhone: item.userDetail.phone,
 				};
 				result.push(obj);
 			});
@@ -127,6 +130,19 @@ module.exports = {
 					id: body.id
 				}
 			});
+			res.send(resultMessage.success("success"));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+
+	// 批量更改订单状态
+	updateMoreStatus: async (req, res) => {
+		let body = req.body;
+		let data = body.data;
+		try {
+			await orderModel.bulkCreate( data, {updateOnDuplicate: ["status"]});
 			res.send(resultMessage.success("success"));
 		} catch (error) {
 			console.log(error);
