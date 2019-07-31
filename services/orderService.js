@@ -89,6 +89,7 @@ module.exports = {
 					phone: item.phone,
 					address: item.address,
 					userPhone: item.userDetail.phone,
+					orderList: item.order_list
 				};
 				result.push(obj);
 			});
