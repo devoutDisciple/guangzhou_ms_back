@@ -82,4 +82,18 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+	// 获取位置信息
+	getPositionByCampus: async (req, res) => {
+		try {
+			let campus = await CampusModel.findOne({
+				where: {
+					name: req.query.campus
+				},
+			});
+			res.send(resultMessage.success(campus));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
 };

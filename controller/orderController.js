@@ -62,5 +62,9 @@ router.get("/getMoneyByShopid", (req, res) => {
 	orderService.getMoneyByShopid(req, res);
 });
 
+// 筛选订单 getOrderByStatusAndPosition
+router.post("/getOrderByStatusAndPosition", (req, res) => {
+	orderService.getOrderByStatusAndPosition(req, res);
+});
 
 module.exports = router;

@@ -6,6 +6,7 @@ const positionService = require("../services/positionService");
 router.get("/all", (req, res) => {
 	positionService.getAll(req, res);
 });
+
 // 增加校区
 router.post("/add", (req, res) => {
 	positionService.add(req, res);
@@ -20,4 +21,10 @@ router.post("/delete", (req, res) => {
 router.post("/update", (req, res) => {
 	positionService.update(req, res);
 });
+
+// 根据校区获取位置信息 getPositionByCampus
+router.get("/getPositionByCampus", (req, res) => {
+	positionService.getPositionByCampus(req, res);
+});
+
 module.exports = router;

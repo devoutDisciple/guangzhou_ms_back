@@ -5,6 +5,9 @@ const orderModel = order(sequelize);
 const user = require("../models/user");
 const UserModel = user(sequelize);
 orderModel.belongsTo(UserModel, { foreignKey: "openid", targetKey: "openid", as: "userDetail",});
+let objUtil = require("../util/ObjectUtil");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 
 module.exports = {
@@ -73,11 +76,6 @@ module.exports = {
 			});
 			let result = [];
 			list.map(item => {
-				// let address = JSON.parse(item.userDetail.address) || [];
-				// let userAddress = "";
-				// address.map(point => {
-				// 	if(point.default) userAddress = `${point.campus} ${point.floor}`;
-				// });
 				let obj = {
 					id: item.id,
 					total_price: item.total_price,
@@ -325,6 +323,67 @@ module.exports = {
 			sequelize.query(str, { replacements: [shopid], type: sequelize.QueryTypes.SELECT }).then(function(projects) {
 				res.send(resultMessage.success(projects));
 			});
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+
+	// 根据订单位置，状态，名称，用户名称，编号，筛选订单位置
+	getOrderByStatusAndPosition:  async (req, res) => {
+
+		let body = req.body;
+		let where = {
+			status: body.status == 9 ? null : body.status,
+			people: body.people,
+			id: body.id,
+			// start_time: body.start_time,
+			// end_time: body.end_time
+		};
+		if(body.start_time && body.end_time) {
+			where.order_time = {
+				[Op.between]: [body.start_time, body.end_time]
+			};
+		}
+		objUtil.deleteEmptyObject(where, true);
+		console.log(where);
+		body.campus && body.campus != "all" ? where.address = {
+			[Op.like]: "%" + body.campus + "%"
+		} : null;
+		body.name ? where.order_list = {
+			[Op.like]: "%" + body.name + "%"
+		} : null;
+		let params = {
+			include: [{
+				model: UserModel,
+				as: "userDetail",
+			}],
+			order: [
+				["order_time", "DESC"],
+			]
+		};
+		objUtil.isEmpty(where) ? null : params.where = where;
+		console.log(params, 99);
+		try {
+			let list = await orderModel.findAll(params);
+			let result = [];
+			list.map(item => {
+				let obj = {
+					id: item.id,
+					total_price: item.total_price,
+					discount_price: item.discount_price,
+					order_time: item.order_time,
+					status: item.status,
+					username: item.userDetail.username,
+					people: item.people,
+					phone: item.phone,
+					address: item.address,
+					userPhone: item.userDetail.phone,
+					orderList: item.order_list
+				};
+				result.push(obj);
+			});
+			res.send(resultMessage.success(result));
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));

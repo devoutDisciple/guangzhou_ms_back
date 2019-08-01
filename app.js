@@ -53,7 +53,7 @@ app.listen(80, () => {
 	console.log(chalk.yellow("server is listenning 80"));
 });
 
-// // 监听3001端口  本地
+// 监听3001端口  本地
 app.listen(3002, () => {
 	console.log(chalk.yellow("server is listenning 3002"));
 });
