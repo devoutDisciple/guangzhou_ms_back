@@ -5,6 +5,11 @@ const orderModel = order(sequelize);
 const user = require("../models/user");
 const UserModel = user(sequelize);
 orderModel.belongsTo(UserModel, { foreignKey: "openid", targetKey: "openid", as: "userDetail",});
+
+const evaluate = require("../models/evaluate");
+const evaluateModel = evaluate(sequelize);
+orderModel.belongsTo(evaluateModel, { foreignKey: "id", targetKey: "orderid", as: "evaluateDetail",});
+
 let objUtil = require("../util/ObjectUtil");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -371,6 +376,9 @@ module.exports = {
 			include: [{
 				model: UserModel,
 				as: "userDetail",
+			}, {
+				model: evaluateModel,
+				as: "evaluateDetail",
 			}],
 			order: [
 				["order_time", "DESC"],
@@ -393,7 +401,8 @@ module.exports = {
 					phone: item.phone,
 					address: item.address,
 					userPhone: item.userDetail.phone,
-					orderList: item.order_list
+					orderList: item.order_list,
+					evaluate: item.evaluateDetail ? item.evaluateDetail.desc : ""
 				};
 				result.push(obj);
 			});
