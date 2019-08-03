@@ -96,4 +96,23 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
+	// 更改坐标
+	updatePositionSite: async (req, res) => {
+		try {
+			let body = req.body;
+			await CampusModel.update({
+				siteX: body.siteX,
+				siteY: body.siteY
+			}, {
+				where: {
+					id: body.id
+				},
+			});
+			res.send(resultMessage.success("success"));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
 };

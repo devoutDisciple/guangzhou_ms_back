@@ -4,66 +4,70 @@ module.exports = function(sequelize) {
 		id: {
 			type: Sequelize.INTEGER(11),
 			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
+			primaryKey: true
 		},
 		openid: {
 			type: Sequelize.STRING(255),
-			allowNull: false
+			allowNull: true
 		},
 		people: {
 			type: Sequelize.STRING(255),
-			allowNull: false
+			allowNull: true
 		},
 		phone: {
 			type: Sequelize.STRING(255),
-			allowNull: false
+			allowNull: true
 		},
 		address: {
 			type: Sequelize.STRING(255),
-			allowNull: false
+			allowNull: true
 		},
 		shopid: {
 			type: Sequelize.INTEGER(11),
-			allowNull: false
+			allowNull: true
 		},
 		order_list: {
 			type: Sequelize.STRING(10000),
-			allowNull: false
+			allowNull: true
 		},
 		send_price: {
 			type: Sequelize.STRING(255),
-			allowNull: false
+			allowNull: true
 		},
 		package_cost: {
 			type: Sequelize.STRING(255),
-			allowNull: false
+			allowNull: true
 		},
 		total_price: {
 			type: Sequelize.STRING(255),
-			allowNull: false
+			allowNull: true
 		},
 		discount_price: {
 			type: Sequelize.STRING(255),
-			allowNull: false,
+			allowNull: true,
 			defaultValue: "0"
 		},
 		desc: {
 			type: Sequelize.STRING(45),
-			allowNull: false
+			allowNull: true
+		},
+		print: {
+			type: Sequelize.INTEGER(255),
+			allowNull: true,
+			defaultValue: "1"
 		},
 		status: {
 			type: Sequelize.STRING(45),
-			allowNull: false,
+			allowNull: true,
 			defaultValue: "1"
 		},
 		order_time: {
 			type: Sequelize.DATE,
-			allowNull: false
+			allowNull: true
 		},
 		is_delete: {
 			type: Sequelize.INTEGER(11),
-			allowNull: false,
+			allowNull: true,
 			defaultValue: "1"
 		}
 	}, {

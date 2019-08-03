@@ -27,4 +27,9 @@ router.get("/getPositionByCampus", (req, res) => {
 	positionService.getPositionByCampus(req, res);
 });
 
+// 更改地图坐标  updatePositionSite
+router.post("/updatePositionSite", (req, res) => {
+	positionService.updatePositionSite(req, res);
+});
+
 module.exports = router;
