@@ -27,6 +27,11 @@ router.post("/updateMoreStatus", (req, res) => {
 	orderService.updateMoreStatus(req, res);
 });
 
+// 批量更改打印状态  updateMorePrint
+router.post("/updateMorePrint", (req, res) => {
+	orderService.updateMorePrint(req, res);
+});
+
 // 个人消费记录求和
 router.get("/getAllMoneyByOpenid", (req, res) => {
 	orderService.sumMoney(req, res);

@@ -149,6 +149,19 @@ module.exports = {
 		}
 	},
 
+	// 批量更改订单打印状态
+	updateMorePrint: async (req, res) => {
+		let body = req.body;
+		let data = body.data;
+		try {
+			await orderModel.bulkCreate( data, {updateOnDuplicate: ["print"]});
+			res.send(resultMessage.success("success"));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+
 	// 获取订单 所有订单
 	getAll: async (req, res) => {
 		try {
@@ -334,7 +347,8 @@ module.exports = {
 
 		let body = req.body;
 		let where = {
-			status: body.status == 9 ? null : body.status,
+			print: body.print == "all" ? null : body.print,
+			status: body.sendtab,
 			people: body.people,
 			id: body.id,
 			// start_time: body.start_time,
