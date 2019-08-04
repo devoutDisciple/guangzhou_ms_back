@@ -11,6 +11,10 @@ module.exports = function(sequelize) {
 			type: Sequelize.STRING(45),
 			allowNull: false
 		},
+		position: {
+			type: Sequelize.STRING(255),
+			allowNull: true
+		},
 		title: {
 			type: Sequelize.STRING(800),
 			allowNull: true
@@ -48,9 +52,14 @@ module.exports = function(sequelize) {
 		today: {
 			type: Sequelize.INTEGER(11),
 			allowNull: true,
-			defaultValue: 2
+			defaultValue: "2"
 		},
 		sort: {
+			type: Sequelize.INTEGER(11),
+			allowNull: true,
+			defaultValue: "1"
+		},
+		show: {
 			type: Sequelize.INTEGER(11),
 			allowNull: true,
 			defaultValue: "1"
