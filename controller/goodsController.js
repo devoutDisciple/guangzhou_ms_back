@@ -66,4 +66,9 @@ router.get("/updateShow", (req, res) => {
 	goodsService.updateShow(req, res);
 });
 
+// 商品是否有余货 updateLeave
+router.post("/updateLeave", (req, res) => {
+	goodsService.updateLeave(req, res);
+});
+
 module.exports = router;

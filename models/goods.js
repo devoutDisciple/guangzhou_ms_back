@@ -59,6 +59,11 @@ module.exports = function(sequelize) {
 			allowNull: true,
 			defaultValue: "1"
 		},
+		leave: {
+			type: Sequelize.INTEGER(11),
+			allowNull: true,
+			defaultValue: "1"
+		},
 		show: {
 			type: Sequelize.INTEGER(11),
 			allowNull: true,

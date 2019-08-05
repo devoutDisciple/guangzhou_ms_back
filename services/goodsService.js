@@ -233,9 +233,25 @@ module.exports = {
 
 	// 商品上下架 updateShow
 	updateShow: async (req, res) => {
-		let params = req.query;
+		let params = req.body;
 		try {
 			await GoodsModel.update({show: params.show}, {
+				where: {
+					id: params.id
+				}
+			});
+			res.send(resultMessage.success("success"));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+
+	// 商品是否售罄  updateLeave
+	updateLeave: async (req, res) => {
+		let params = req.body;
+		try {
+			await GoodsModel.update({leave: params.leave}, {
 				where: {
 					id: params.id
 				}
