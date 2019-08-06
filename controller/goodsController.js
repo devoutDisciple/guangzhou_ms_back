@@ -62,7 +62,7 @@ router.get("/getAllToday", (req, res) => {
 });
 
 // 商品上下架 updateShow
-router.get("/updateShow", (req, res) => {
+router.post("/updateShow", (req, res) => {
 	goodsService.updateShow(req, res);
 });
 

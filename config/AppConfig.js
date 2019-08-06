@@ -8,6 +8,6 @@ module.exports = {
 	// 本地环境
 	// goodsImgFilePath: "/Users/zhangzhen/program/guanzhou/guangzhou_ms/guangzhou_ms_back/public/goods", // 商品描述图片
 	// swiperImgFilePath: "/Users/zhangzhen/program/guanzhou/guangzhou_ms/guangzhou_ms_back/public",// swiper图片
-	// swiperPreUrl: "http://localhost:3001/",
-	// goodsPreUrl: "http://localhost:3001/goods/",
+	// swiperPreUrl: "http://localhost:3002/",
+	// goodsPreUrl: "http://localhost:3002/goods/",
 };

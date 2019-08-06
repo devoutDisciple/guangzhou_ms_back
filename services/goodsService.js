@@ -83,8 +83,8 @@ module.exports = {
 	// 上传商品描述图片
 	uploadDescImg: async (req, res, filename) => {
 		try {
-			let filePath = preUrl + filename;
-			res.send(resultMessage.success(filePath));
+			let UrlPath = preUrl + filename;
+			res.send(resultMessage.success(UrlPath));
 			images(`${filePath}/${filename}`).save(`${filePath}/${filename}`, {
 				quality : 20
 			});
