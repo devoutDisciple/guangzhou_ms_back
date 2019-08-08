@@ -11,6 +11,10 @@ module.exports = function(sequelize) {
 			type: Sequelize.STRING(255),
 			allowNull: false
 		},
+		shop_id: {
+			type: Sequelize.INTEGER(255),
+			allowNull: true
+		},
 		goods_id: {
 			type: Sequelize.INTEGER(255),
 			allowNull: true
@@ -19,6 +23,15 @@ module.exports = function(sequelize) {
 			type: Sequelize.INTEGER(255),
 			allowNull: true,
 			defaultValue: "1"
+		},
+		show: {
+			type: Sequelize.INTEGER(11),
+			allowNull: false,
+			defaultValue: "2"
+		},
+		time: {
+			type: Sequelize.INTEGER(11),
+			allowNull: true
 		}
 	}, {
 		tableName: "adver",
