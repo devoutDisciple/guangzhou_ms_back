@@ -35,6 +35,8 @@ module.exports = {
 				shopName: data.shopDetail.name,
 				goodsName: data.goodsDetail.name,
 				status: data.status,
+				show: data.show,
+				time: data.time
 			}];
 			res.send(resultMessage.success(result));
 		} catch (error) {
@@ -47,10 +49,12 @@ module.exports = {
 		try {
 			let body = req.body;
 			let params = {
-				shop_id: body.shop_id,
-				goods_id: body.goods_id,
+				show: body.show,
 				status: body.status,
 			};
+			body.time ? params.time = body.time : null;
+			body.shop_id ? params.shop_id = body.shop_id : null;
+			body.goods_id ? params.goods_id = body.goods_id : null;
 			filename ? params.url = preUrl + filename : null;
 			await adverModel.update(params, {
 				where: {
