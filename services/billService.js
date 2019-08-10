@@ -111,6 +111,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 获取所有提现记录
 	getAllBill: async (req, res) => {
 		try {
@@ -129,6 +130,8 @@ module.exports = {
 				result.push({
 					id: item.id,
 					code: item.code,
+					name: item.name,
+					phone: item.phone,
 					shopName: item.shopDetail.name,
 					type: item.type,
 					account: item.account,
