@@ -1,10 +1,13 @@
+/* jshint indent: 2 */
+
 const Sequelize = require("sequelize");
 module.exports = function(sequelize) {
 	return sequelize.define("order", {
 		id: {
 			type: Sequelize.INTEGER(11),
 			allowNull: false,
-			primaryKey: true
+			primaryKey: true,
+			autoIncrement: true
 		},
 		openid: {
 			type: Sequelize.STRING(255),

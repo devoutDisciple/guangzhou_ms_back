@@ -1,3 +1,5 @@
+/* jshint indent: 2 */
+
 const Sequelize = require("sequelize");
 module.exports = function(sequelize) {
 	return sequelize.define("bill", {
@@ -9,7 +11,7 @@ module.exports = function(sequelize) {
 		},
 		code: {
 			type: Sequelize.STRING(255),
-			allowNull: false
+			allowNull: true
 		},
 		shop_id: {
 			type: Sequelize.INTEGER(11),
@@ -23,6 +25,14 @@ module.exports = function(sequelize) {
 		account: {
 			type: Sequelize.STRING(255),
 			allowNull: false
+		},
+		name: {
+			type: Sequelize.STRING(255),
+			allowNull: true
+		},
+		phone: {
+			type: Sequelize.STRING(255),
+			allowNull: true
 		},
 		money: {
 			type: Sequelize.STRING(255),

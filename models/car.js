@@ -1,3 +1,5 @@
+/* jshint indent: 2 */
+
 const Sequelize = require("sequelize");
 module.exports = function(sequelize) {
 	return sequelize.define("car", {
@@ -13,7 +15,7 @@ module.exports = function(sequelize) {
 		},
 		shop_id: {
 			type: Sequelize.INTEGER(11),
-			allowNull: true
+			allowNull: false
 		},
 		goods_id: {
 			type: Sequelize.INTEGER(11),
@@ -26,11 +28,12 @@ module.exports = function(sequelize) {
 		},
 		create_time: {
 			type: Sequelize.STRING(255),
-			allowNull: true
+			allowNull: false
 		},
 		is_delete: {
 			type: Sequelize.INTEGER(11),
-			allowNull: true
+			allowNull: false,
+			defaultValue: "1"
 		}
 	}, {
 		tableName: "car",

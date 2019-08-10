@@ -52,14 +52,18 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
+	// 增加轮播图
 	add: async (req, res, filename) => {
 		try {
 			let body = req.body;
 			let params = {
-				shopid: 1,
+				type: body.type,
 				campus: body.campus,
 				sort: body.sort,
 			};
+			body.goodsid ? params.goodsid = body.goodsid : null;
+			body.shopid ? params.shopid = body.shopid : null;
 			filename ? params.url = preUrl + filename : null;
 			await SwiperModel.create(params);
 			res.send(resultMessage.success("success"));
@@ -71,13 +75,17 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
+	// 更新轮播图
 	update: async (req, res, filename) => {
 		try {
 			let body = req.body;
 			let params = {
-				shopid: body.shopid,
-				sort: body.sort
+				type: body.type,
+				sort: body.sort,
 			};
+			body.goodsid ? params.goodsid = body.goodsid : null;
+			body.shopid ? params.shopid = body.shopid : null;
 			filename ? params.url = preUrl + filename : null;
 			await SwiperModel.update(params, {
 				where: {
