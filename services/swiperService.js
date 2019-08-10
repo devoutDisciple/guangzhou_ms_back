@@ -10,8 +10,10 @@ const AppConfig = require("../config/AppConfig");
 let preUrl = AppConfig.swiperPreUrl;
 let filePath = AppConfig.swiperImgFilePath;
 const images = require("images");
-
 SwiperModel.belongsTo(shopModel, { foreignKey: "shopid", targetKey: "id", as: "shopDetail",});
+const goods = require("../models/goods");
+const goodsModel = goods(sequelize);
+SwiperModel.belongsTo(goodsModel, { foreignKey: "goodsid", targetKey: "id", as: "goodsDetail",});
 
 module.exports = {
 	getAll: async (req, res) => {
@@ -26,6 +28,9 @@ module.exports = {
 				include: [{
 					model: shopModel,
 					as: "shopDetail",
+				}, {
+					model: goodsModel,
+					as: "goodsDetail",
 				}],
 				order: [
 					// will return `name`  DESC 降序  ASC 升序
@@ -34,15 +39,18 @@ module.exports = {
 			});
 			let result = [];
 			swiper.map(item => {
-				let value = item.dataValues;
-				let name = value.shopDetail.name;
+				let shopName = item.shopDetail ? item.shopDetail.name : null;
+				let goodsName = item.goodsDetail ? item.goodsDetail.name : null;
 				let obj = {
-					id: value.id,
-					campus: value.campus,
-					shopid: value.shopid,
-					url: value.url,
-					shopName: name,
-					sort: value.sort,
+					id: item.id,
+					campus: item.campus,
+					shopid: item.shopid,
+					type: item.type,
+					goodsid: item.goodsid,
+					url: item.url,
+					sort: item.sort,
+					shopName: shopName,
+					goodsName: goodsName,
 				};
 				result.push(obj);
 			});

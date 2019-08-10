@@ -1,3 +1,5 @@
+/* jshint indent: 2 */
+
 const Sequelize = require("sequelize");
 module.exports = function(sequelize) {
 	return sequelize.define("goods", {
@@ -55,6 +57,11 @@ module.exports = function(sequelize) {
 			defaultValue: "2"
 		},
 		sort: {
+			type: Sequelize.INTEGER(11),
+			allowNull: true,
+			defaultValue: "1"
+		},
+		leave: {
 			type: Sequelize.INTEGER(11),
 			allowNull: true,
 			defaultValue: "1"

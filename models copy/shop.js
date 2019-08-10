@@ -1,3 +1,5 @@
+/* jshint indent: 2 */
+
 const Sequelize = require("sequelize");
 module.exports = function(sequelize) {
 	return sequelize.define("shop", {
@@ -66,6 +68,11 @@ module.exports = function(sequelize) {
 			type: Sequelize.STRING(255),
 			allowNull: true,
 			defaultValue: "23:59"
+		},
+		status: {
+			type: Sequelize.INTEGER(11),
+			allowNull: true,
+			defaultValue: "1"
 		},
 		invite: {
 			type: Sequelize.INTEGER(11),

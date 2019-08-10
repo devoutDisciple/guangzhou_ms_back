@@ -10,24 +10,24 @@ module.exports = function(sequelize) {
 			autoIncrement: true
 		},
 		username: {
-			type: sequelize.STRING(255),
+			type: Sequelize.STRING(255),
 			allowNull: false
 		},
 		password: {
-			type: sequelize.STRING(255),
+			type: Sequelize.STRING(255),
 			allowNull: false
 		},
 		shopid: {
-			type: sequelize.INTEGER(11),
+			type: Sequelize.INTEGER(11),
 			allowNull: false
 		},
 		role: {
-			type: sequelize.INTEGER(11),
+			type: Sequelize.INTEGER(11),
 			allowNull: true,
 			defaultValue: "2"
 		},
 		is_delete: {
-			type: sequelize.STRING(255),
+			type: Sequelize.STRING(255),
 			allowNull: false,
 			defaultValue: "1"
 		}
