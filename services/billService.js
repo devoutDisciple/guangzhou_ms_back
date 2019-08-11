@@ -2,6 +2,8 @@ const resultMessage = require("../util/resultMessage");
 const sequelize = require("../dataSource/MysqlPoolClass");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
+const rate = require("../models/rate");
+const rateModel = rate(sequelize);
 const bill = require("../models/bill");
 const billModel = bill(sequelize);
 const order = require("../models/order");
@@ -13,7 +15,6 @@ billModel.belongsTo(ShopModel, { foreignKey: "shop_id", targetKey: "id", as: "sh
 
 module.exports = {
 	// 查看全部提现金额
-	// 查看商店提现金额
 	getBillMoneyReady: async (req, res) => {
 		try {
 			// 商店总金额
@@ -36,6 +37,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 查看商店提现金额
 	getBillMoneyReadyByShopid: async (req, res) => {
 		try {
@@ -46,6 +48,7 @@ module.exports = {
 					shopid: shopid
 				}
 			});
+			//
 			// 已经提现金额
 			let alreadyMoney = await billModel.sum("money", {
 				where: {
@@ -65,11 +68,24 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 提交提现
 	addBill: async (req, res) => {
 		try {
 			let body = req.body;
 			body.code = PayUtil.getNonceStr();
+			// 查看我们的费率
+			let result = await rateModel.findAll();
+			let rate = result[0];
+			// 计算我们的抽成
+			let our_money = Number(body.money) * Number(rate.shop_rate) / 100;
+			// 计算微信抽成
+			let other_money = (Number(body.money) - Number(our_money)) * Number(rate.other_rate) / 100;
+			// 实际到账的钱
+			let real_money = Number(body.money) - Number(our_money) - Number(other_money);
+			body.our_money = our_money;
+			body.other_money = other_money;
+			body.real_money = real_money;
 			await billModel.create(body);
 			res.send(resultMessage.success("success"));
 		} catch (error) {
@@ -77,6 +93,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 获取商店的提现记录
 	getAllByShopid: async (req, res) => {
 		try {
@@ -136,6 +153,9 @@ module.exports = {
 					type: item.type,
 					account: item.account,
 					money: item.money,
+					our_money: item.our_money,
+					other_money: item.other_money,
+					real_money: item.real_money,
 					status: item.status,
 					create_time: item.create_time,
 					modify_time: item.modify_time

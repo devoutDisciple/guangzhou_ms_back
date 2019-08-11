@@ -12,10 +12,13 @@ const accoutController = require("./accoutController");
 const countController = require("./countController");
 const billController = require("./billController");
 const adverController = require("./adverController");
+const rateCountroller = require("./rateCountroller");
 
 const router = (app) => {
 	// 数据汇总
 	app.use("/count", countController);
+	// 费率
+	app.use("/rate", rateCountroller);
 	// 用户
 	app.use("/user", userController);
 	// 角色
