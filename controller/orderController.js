@@ -32,6 +32,11 @@ router.post("/updateMorePrint", (req, res) => {
 	orderService.updateMorePrint(req, res);
 });
 
+// 订单数量获取 getNumData
+router.get("/getNumData", (req, res) => {
+	orderService.getNumData(req, res);
+});
+
 // 个人消费记录求和
 router.get("/getAllMoneyByOpenid", (req, res) => {
 	orderService.sumMoney(req, res);

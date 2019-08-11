@@ -19,6 +19,8 @@ module.exports = {
 		try {
 			// 商店总金额
 			let allMoney = await orderModel.sum("total_price");
+			// 平台营收
+			let adminMoney = await billModel.sum("our_money");
 			// 已经提现金额
 			let alreadyMoney = await billModel.sum("money", {
 				where: {
@@ -28,9 +30,9 @@ module.exports = {
 				}
 			});
 			// 剩余可提现金额
-			let resMoney = Number(allMoney) - Number(alreadyMoney);
+			let resMoney = ((Number(allMoney) - Number(alreadyMoney))).toFixed(2);
 			res.send(resultMessage.success({
-				alreadyMoney, resMoney
+				alreadyMoney, resMoney, adminMoney
 			}));
 		} catch (error) {
 			console.log(error);
@@ -59,7 +61,7 @@ module.exports = {
 				}
 			});
 			// 剩余可提现金额
-			let resMoney = Number(allMoney) - Number(alreadyMoney);
+			let resMoney = (Number(allMoney) - Number(alreadyMoney)).toFixed(2);
 			res.send(resultMessage.success({
 				alreadyMoney, resMoney
 			}));

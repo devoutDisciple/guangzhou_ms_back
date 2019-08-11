@@ -103,6 +103,33 @@ module.exports = {
 		}
 	},
 
+	// 获取订单数量通过商店id
+	getNumData: async (req, res) => {
+		let shopid = req.query.shopid;
+		let address = req.query.position;
+		try {
+			let result = [];
+			address && address.length != 0 ?
+				address.map(async (item) => {
+					let num = await orderModel.count({
+						where: {
+							shopid: shopid,
+							address: {
+								[Op.like]: "%" + item + "%"
+							},
+							status: 1
+						}
+					});
+					result.push(num);
+				})
+				: null;
+			res.send(resultMessage.success(result));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+
 	// 增加订单
 	addOrder: async (req, res) => {
 		try {
