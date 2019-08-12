@@ -63,7 +63,7 @@ module.exports = {
 			// 剩余可提现金额
 			let resMoney = (Number(allMoney) - Number(alreadyMoney)).toFixed(2);
 			res.send(resultMessage.success({
-				alreadyMoney, resMoney
+				allMoney, alreadyMoney, resMoney
 			}));
 		} catch (error) {
 			console.log(error);

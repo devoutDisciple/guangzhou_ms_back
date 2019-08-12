@@ -105,24 +105,24 @@ module.exports = {
 
 	// 获取订单数量通过商店id
 	getNumData: async (req, res) => {
-		let shopid = req.query.shopid;
-		let address = req.query.position;
+		let shopid = req.query.id;
+		let address = req.query.floor || [];
 		try {
 			let result = [];
-			address && address.length != 0 ?
-				address.map(async (item) => {
-					let num = await orderModel.count({
-						where: {
-							shopid: shopid,
-							address: {
-								[Op.like]: "%" + item + "%"
-							},
-							status: 1
-						}
-					});
-					result.push(num);
-				})
-				: null;
+			let lists = await orderModel.findAll({
+				where: {
+					shopid: shopid,
+					status: 1
+				},
+				attributes: ["address"]
+			});
+			address.map(item => {
+				let num = 0;
+				lists.map(list => {
+					if(list.address.includes(item)) num++;
+				});
+				result.push(num);
+			});
 			res.send(resultMessage.success(result));
 		} catch (error) {
 			console.log(error);
