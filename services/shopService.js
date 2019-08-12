@@ -1,5 +1,7 @@
 const resultMessage = require("../util/resultMessage");
 const Sequelize = require("sequelize");
+const request = require("request");
+let AppConfig = require("../util/AppConfig");
 const Op = Sequelize.Op;
 const sequelize = require("../dataSource/MysqlPoolClass");
 const shop = require("../models/shop");
@@ -144,6 +146,40 @@ module.exports = {
 				}
 			});
 			res.send(resultMessage.success("success"));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+	// 获取小程序二维码
+	getAccessCode: async(req, res) => {
+		try {
+			// 获取token
+			// https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=ACCESS_TOKEN  AppConfig
+			request
+				.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${AppConfig.appid}&secret=${AppConfig.AppSecret}`,
+					function(error, response, body) {
+						console.log(body, 111);
+						body = JSON.parse(body);
+						let access_token = body.access_token;
+						console.log(access_token);
+						// 获取二维码
+						request({
+							url: `https://api.weixin.qq.com/wxa/getwxacode?access_token=${access_token}`,
+							method: "POST",
+							json: true,
+							headers: {
+								"content-type": "application/json",
+							},
+							body: JSON.stringify({ path: "/pages/shop/shop?id=1"})
+						},
+						function(error, response, body) {
+							console.log(body, 222);
+							return res.send(resultMessage.success(body));
+						});
+					});
+
+			// res.send(resultMessage.success("success"));
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));

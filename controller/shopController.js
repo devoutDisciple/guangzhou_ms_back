@@ -37,6 +37,10 @@ router.post("/update", (req, res) => {
 	shopService.updateShop(req, res);
 });
 
+// 获取小程序二维码
+router.get("/getAccessCode", (req, res) => {
+	shopService.getAccessCode(req, res);
+});
 
 
 module.exports = router;
