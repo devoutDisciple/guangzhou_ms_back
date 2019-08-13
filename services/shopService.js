@@ -8,6 +8,8 @@ const shop = require("../models/shop");
 const ShopModel = shop(sequelize);
 const account = require("../models/account");
 const AccountModel = account(sequelize);
+const fs = require("fs");
+const appConfig = require("../config/AppConfig");
 
 module.exports = {
 	// 通过商店id获取商店数据
@@ -154,8 +156,10 @@ module.exports = {
 	// 获取小程序二维码
 	getAccessCode: async(req, res) => {
 		try {
+			let shopid = req.query.id;
+			let timestamp = new Date().getTime();
+			let	name = shopid + "-" + timestamp;
 			// 获取token
-			// https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=ACCESS_TOKEN  AppConfig
 			request
 				.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${AppConfig.appid}&secret=${AppConfig.AppSecret}`,
 					function(error, response, body) {
@@ -163,6 +167,7 @@ module.exports = {
 						body = JSON.parse(body);
 						let access_token = body.access_token;
 						console.log(access_token);
+						let params = `/pages/shop/shop?id=${shopid}`;
 						// 获取二维码
 						request({
 							url: `https://api.weixin.qq.com/wxa/getwxacode?access_token=${access_token}`,
@@ -171,14 +176,15 @@ module.exports = {
 							headers: {
 								"content-type": "application/json",
 							},
-							body: JSON.stringify({ path: "/pages/shop/shop?id=1"})
+							body: {
+								"path": params
+							}
 						},
-						function(error, response, body) {
-							console.log(body, 222);
-							return res.send(resultMessage.success(body));
-						});
+						function() {
+							console.log(name, 22);
+							return res.send(resultMessage.success(`${name}.png`));
+						}).pipe(fs.createWriteStream(`${appConfig.swiperImgFilePath}/${name}.png`));
 					});
-
 			// res.send(resultMessage.success("success"));
 		} catch (error) {
 			console.log(error);
