@@ -164,20 +164,22 @@ module.exports = {
 			});
 			let result = [];
 			evaluates.map(item => {
-				result.push({
-					id: item.id,
-					goods_id: item.goods_id,
-					shopName: item.shopDetail.name,
-					shopid: item.shopid,
-					goodsName: item.goodsDetail.name,
-					orderid: item.orderid,
-					username: item.username,
-					avatarUrl: item.avatarUrl,
-					desc: item.desc,
-					shop_grade: item.shop_grade,
-					sender_grade: item.sender_grade,
-					create_time: item.create_time,
-				});
+				if(item.shopDetail.campus == req.query.position) {
+					result.push({
+						id: item.id,
+						goods_id: item.goods_id,
+						shopName: item.shopDetail.name,
+						shopid: item.shopid,
+						goodsName: item.goodsDetail.name,
+						orderid: item.orderid,
+						username: item.username,
+						avatarUrl: item.avatarUrl,
+						desc: item.desc,
+						shop_grade: item.shop_grade,
+						sender_grade: item.sender_grade,
+						create_time: item.create_time,
+					});
+				}
 			});
 			res.send(resultMessage.success(result));
 		} catch (error) {

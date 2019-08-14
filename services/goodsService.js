@@ -202,13 +202,16 @@ module.exports = {
 			let result = [];
 			goods.map(item => {
 				let obj = item.dataValues;
-				result.push({
-					id: obj.id,
-					name: obj.name,
-					shopid: obj.shopid,
-					url: obj.url,
-					shopName: obj.shopDetail.name
-				});
+				if(item.shopDetail.campus == req.query.position) {
+					result.push({
+						id: obj.id,
+						name: obj.name,
+						shopid: obj.shopid,
+						url: obj.url,
+						shopName: obj.shopDetail.name
+					});
+				}
+
 			});
 			res.send(resultMessage.success(result));
 		} catch (error) {
@@ -287,23 +290,25 @@ module.exports = {
 			let goods = await GoodsModel.findAll(params);
 			let result = [];
 			goods.map(item => {
-				result.push({
-					id: item.id,
-					name: item.name,
-					shopName: item.shopDetail.name,
-					title: item.title,
-					url: item.url,
-					desc: item.desc,
-					sales: item.sales,
-					price: item.price,
-					shopid: item.shopid,
-					specification: item.specification,
-					package_cost: item.package_cost,
-					today: item.today,
-					sort: item.sort,
-					leave: item.leave,
-					show: item.show
-				});
+				if(item.shopDetail.campus == req.query.position) {
+					result.push({
+						id: item.id,
+						name: item.name,
+						shopName: item.shopDetail.name,
+						title: item.title,
+						url: item.url,
+						desc: item.desc,
+						sales: item.sales,
+						price: item.price,
+						shopid: item.shopid,
+						specification: item.specification,
+						package_cost: item.package_cost,
+						today: item.today,
+						sort: item.sort,
+						leave: item.leave,
+						show: item.show
+					});
+				}
 			});
 			res.send(resultMessage.success(result));
 		} catch (error) {

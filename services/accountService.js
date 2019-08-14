@@ -77,7 +77,8 @@ module.exports = {
 					shopid: req.body.id
 				}
 			});
-			res.clearCookie("userinfo");
+			let type = req.body.type;
+			type != 1 ? res.clearCookie("userinfo") : null;
 			res.send(resultMessage.success("success"));
 		} catch (error) {
 			console.log(error);
