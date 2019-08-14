@@ -52,4 +52,37 @@ module.exports = {
 		}
 	},
 
+	// 查看商店的用户名称和密码
+	getAccount: async (req, res) => {
+		try {
+			let data = await accountModel.findOne({
+				where: {
+					shopid: req.query.id
+				}
+			});
+			res.send(resultMessage.success(data));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+
+	// 修改商店的用户名称和密码
+	modifyAccount: async (req, res) => {
+		try {
+			await accountModel.update({
+				password: req.body.password
+			}, {
+				where: {
+					shopid: req.body.id
+				}
+			});
+			res.clearCookie("userinfo");
+			res.send(resultMessage.success("success"));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+
 };
