@@ -25,7 +25,7 @@ module.exports = {
 			let alreadyMoney = await billModel.sum("money", {
 				where: {
 					status: {
-						[Op.not]: ["2"]
+						[Op.not]: ["2", "4"]
 					},
 				}
 			});
@@ -56,7 +56,7 @@ module.exports = {
 				where: {
 					shop_id: shopid,
 					status: {
-						[Op.not]: ["2"]
+						[Op.not]: ["2", "4"]
 					},
 				}
 			});
@@ -75,7 +75,7 @@ module.exports = {
 	addBill: async (req, res) => {
 		try {
 			let body = req.body;
-			body.code = PayUtil.getNonceStr();
+			body.code = PayUtil.getNonceStr(12);
 			// 查看我们的费率
 			let result = await rateModel.findAll();
 			let rate = result[0];

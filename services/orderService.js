@@ -383,6 +383,7 @@ module.exports = {
 			status: body.sendtab,
 			people: body.people,
 			id: body.id,
+			shopid: body.shopid,
 			// start_time: body.start_time,
 			// end_time: body.end_time
 		};

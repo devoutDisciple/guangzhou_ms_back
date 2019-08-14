@@ -71,4 +71,9 @@ router.post("/updateLeave", (req, res) => {
 	goodsService.updateLeave(req, res);
 });
 
+// 通过名称搜索商品 getAllGoodsByName
+router.get("/getAllGoodsByName", (req, res) => {
+	goodsService.getAllGoodsByName(req, res);
+});
+
 module.exports = router;

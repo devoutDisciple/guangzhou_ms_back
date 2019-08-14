@@ -5,6 +5,9 @@ const evaluateModel = evaluate(sequelize);
 const goods = require("../models/goods");
 const GoodsModel = goods(sequelize);
 evaluateModel.belongsTo(GoodsModel, { foreignKey: "goods_id", targetKey: "id", as: "goodsDetail",});
+const shop = require("../models/shop");
+const shopModel = shop(sequelize);
+evaluateModel.belongsTo(shopModel, { foreignKey: "shopid", targetKey: "id", as: "shopDetail",});
 
 module.exports = {
 	// 获取所有用户评价
@@ -125,6 +128,46 @@ module.exports = {
 				result.push({
 					id: item.id,
 					goods_id: item.goods_id,
+					shopid: item.shopid,
+					goodsName: item.goodsDetail.name,
+					orderid: item.orderid,
+					username: item.username,
+					avatarUrl: item.avatarUrl,
+					desc: item.desc,
+					shop_grade: item.shop_grade,
+					sender_grade: item.sender_grade,
+					create_time: item.create_time,
+				});
+			});
+			res.send(resultMessage.success(result));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+
+	getEvaluate: async (req, res) => {
+		try {
+			// 获取评价
+			let evaluates = await evaluateModel.findAll({
+				include: [{
+					model: GoodsModel,
+					as: "goodsDetail",
+				}, {
+					model: shopModel,
+					as: "shopDetail",
+				}],
+				order: [
+					// will return `name`  DESC 降序  ASC 升序
+					["create_time", "DESC"],
+				],
+			});
+			let result = [];
+			evaluates.map(item => {
+				result.push({
+					id: item.id,
+					goods_id: item.goods_id,
+					shopName: item.shopDetail.name,
 					shopid: item.shopid,
 					goodsName: item.goodsDetail.name,
 					orderid: item.orderid,

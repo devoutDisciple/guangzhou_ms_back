@@ -22,4 +22,9 @@ router.get("/getEvaluateByShopId", (req, res) => {
 	evaluateService.getEvaluateByShopId(req, res);
 });
 
+// 通过商店名称筛选 getEvaluate
+router.get("/getEvaluate", (req, res) => {
+	evaluateService.getEvaluate(req, res);
+});
+
 module.exports = router;

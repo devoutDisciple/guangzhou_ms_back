@@ -1,6 +1,8 @@
 const resultMessage = require("../util/resultMessage");
 const sequelize = require("../dataSource/MysqlPoolClass");
 const goods = require("../models/goods");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 const GoodsModel = goods(sequelize);
 const AppConfig = require("../config/AppConfig");
 const fs = require("fs"); // 引入fs模块
@@ -257,6 +259,53 @@ module.exports = {
 				}
 			});
 			res.send(resultMessage.success("success"));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+
+	// 获取所有商品，可通过商品名称搜索
+	getAllGoodsByName: async (req, res) => {
+		let name = req.query.name;
+		let params = {
+			order: [
+				// will return `name`  DESC 降序  ASC 升序
+				["sort", "DESC"],
+			],
+			include: [{
+				model: ShopModel,
+				as: "shopDetail",
+			}],
+		};
+		name ? params.where = {
+			name: {
+				[Op.like]: "%" + name + "%"
+			}
+		} : null;
+		try {
+			let goods = await GoodsModel.findAll(params);
+			let result = [];
+			goods.map(item => {
+				result.push({
+					id: item.id,
+					name: item.name,
+					shopName: item.shopDetail.name,
+					title: item.title,
+					url: item.url,
+					desc: item.desc,
+					sales: item.sales,
+					price: item.price,
+					shopid: item.shopid,
+					specification: item.specification,
+					package_cost: item.package_cost,
+					today: item.today,
+					sort: item.sort,
+					leave: item.leave,
+					show: item.show
+				});
+			});
+			res.send(resultMessage.success(result));
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));

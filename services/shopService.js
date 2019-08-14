@@ -59,13 +59,18 @@ module.exports = {
 	// 获取所有商店信息
 	getAll: async(req, res) => {
 		try {
-			let swiper = await ShopModel.findAll({
-				where: {
-					is_delete: {
-						[Op.not]: ["2"]
-					},
-					campus: req.query.position
+			let name = req.query.name;
+			let where = {
+				is_delete: {
+					[Op.not]: ["2"]
 				},
+				campus: req.query.position
+			};
+			name ? where.name = {
+				[Op.like]: "%" + name + "%"
+			} : null;
+			let swiper = await ShopModel.findAll({
+				where: where,
 				order: [
 					// will return `name`  DESC 降序  ASC 升序
 					["sort", "DESC"],
@@ -182,7 +187,7 @@ module.exports = {
 						},
 						function() {
 							console.log(name, 22);
-							return res.send(resultMessage.success(`${name}.png`));
+							return res.send(resultMessage.success(`http://www.bws666.com/${name}.png`));
 						}).pipe(fs.createWriteStream(`${appConfig.swiperImgFilePath}/${name}.png`));
 					});
 			// res.send(resultMessage.success("success"));
