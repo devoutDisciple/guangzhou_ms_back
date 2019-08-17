@@ -109,7 +109,9 @@ module.exports = {
 				today: body.today,
 				sort: body.sort,
 				shopid: body.shopid,
-				sales: body.sales
+				sales: body.sales,
+				position: body.position,
+				specification: body.specification
 			};
 			filename ? params.url = preUrl + filename : null;
 			await GoodsModel.create(params);
