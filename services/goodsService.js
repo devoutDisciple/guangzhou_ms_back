@@ -141,7 +141,8 @@ module.exports = {
 				sales: body.sales,
 				specification: body.specification
 			};
-			filename ? params.url = preUrl + filename : null;
+			// type == 1 不修改图片 2 修改图片
+			body.type == 2 ? params.url = preUrl + filename : null;
 			await GoodsModel.update(params, {
 				where: {
 					id: req.body.id

@@ -8,4 +8,5 @@ module.exports = {
 	// host			:  	"localhost",
 	database		: 	"guangzhou",
 	dialect			: 	"mysql",
+	timezone   		:	"+08:00"
 };
