@@ -2,6 +2,9 @@ const resultMessage = require("../util/resultMessage");
 const sequelize = require("../dataSource/MysqlPoolClass");
 const account = require("../models/account");
 const accountModel = account(sequelize);
+const shop = require("../models/shop");
+const shopModel = shop(sequelize);
+accountModel.belongsTo(shopModel, { foreignKey: "shopid", targetKey: "id", as: "shopDetail",});
 
 module.exports = {
 	// 查看用户是否登录
@@ -20,7 +23,11 @@ module.exports = {
 			let user = await accountModel.findOne({
 				where: {
 					username: username
-				}
+				},
+				include: [{
+					model: shopModel,
+					as: "shopDetail",
+				}],
 			});
 			if(!user || password != user.password) return res.send(resultMessage.specilError(400, "用户名或密码错误!"));
 			let value = `${username}_#$%^%$#_${password}`;
@@ -31,10 +38,12 @@ module.exports = {
 					httpOnly: true
 				}
 			);  //signed 表示对cookie加密
+			let campus = user.shopDetail ? user.shopDetail.campus : "";
 			res.send(resultMessage.success({
 				username: user.username,
 				shopid: user.shopid,
-				role: user.role
+				role: user.role,
+				campus: campus
 			}));
 		} catch (error) {
 			console.log(error);
