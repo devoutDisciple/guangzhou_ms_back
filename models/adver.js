@@ -14,25 +14,25 @@ module.exports = function(sequelize) {
 			allowNull: false
 		},
 		shop_id: {
-			type: Sequelize.STRING(255),
+			type: Sequelize.INTEGER(11),
 			allowNull: true
 		},
 		goods_id: {
-			type: Sequelize.STRING(255),
+			type: Sequelize.INTEGER(11),
 			allowNull: true
 		},
 		status: {
-			type: Sequelize.STRING(255),
+			type: Sequelize.INTEGER(11),
 			allowNull: true,
 			defaultValue: "1"
 		},
 		show: {
-			type: Sequelize.STRING(11),
+			type: Sequelize.INTEGER(11),
 			allowNull: false,
 			defaultValue: "2"
 		},
 		time: {
-			type: Sequelize.STRING(11),
+			type: Sequelize.INTEGER(11),
 			allowNull: true
 		}
 	}, {

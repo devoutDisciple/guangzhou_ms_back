@@ -32,8 +32,8 @@ module.exports = {
 				url: data.url,
 				shop_id: data.shop_id,
 				goods_id: data.goods_id,
-				shopName: data.shopDetail.name,
-				goodsName: data.goodsDetail.name,
+				shopName: data.shopDetail ? data.shopDetail.name : "",
+				goodsName: data.goodsDetail ? data.goodsDetail.name : null,
 				status: data.status,
 				show: data.show,
 				time: data.time

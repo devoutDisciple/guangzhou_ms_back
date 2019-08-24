@@ -164,7 +164,7 @@ module.exports = {
 			});
 			let result = [];
 			evaluates.map(item => {
-				if(item.shopDetail.campus == req.query.position) {
+				if(item.shopDetail && item.shopDetail.campus == req.query.position) {
 					result.push({
 						id: item.id,
 						goods_id: item.goods_id,

@@ -206,7 +206,7 @@ module.exports = {
 			let result = [];
 			goods.map(item => {
 				let obj = item.dataValues;
-				if(item.shopDetail.campus == req.query.position) {
+				if(item.shopDetail && item.shopDetail.campus == req.query.position) {
 					result.push({
 						id: obj.id,
 						name: obj.name,
@@ -294,7 +294,7 @@ module.exports = {
 			let goods = await GoodsModel.findAll(params);
 			let result = [];
 			goods.map(item => {
-				if(item.shopDetail.campus == req.query.position) {
+				if(item.shopDetail && item.shopDetail.campus == req.query.position) {
 					result.push({
 						id: item.id,
 						name: item.name,
