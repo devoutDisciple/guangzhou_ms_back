@@ -173,7 +173,7 @@ module.exports = {
 		let body = req.body;
 		let data = body.data;
 		try {
-			await orderModel.bulkCreate( data, {updateOnDuplicate: ["status"]});
+			await orderModel.bulkCreate( data, {updateOnDuplicate: ["status"],  ignoreDuplicates: true});
 			res.send(resultMessage.success("success"));
 		} catch (error) {
 			console.log(error);
@@ -387,6 +387,12 @@ module.exports = {
 			// start_time: body.start_time,
 			// end_time: body.end_time
 		};
+		if(body.sendtab == 3) {
+			where.status = [3, 5];
+		}
+		if(body.sendtab == 4) {
+			where.status = [4, 7];
+		}
 		if(body.start_time && body.end_time) {
 			where.order_time = {
 				[Op.between]: [body.start_time, body.end_time]
@@ -428,6 +434,7 @@ module.exports = {
 					people: item.people,
 					phone: item.phone,
 					address: item.address,
+					desc: item.desc,
 					userPhone: item.userDetail.phone,
 					orderList: item.order_list,
 					evaluate: item.evaluateDetail ? item.evaluateDetail.desc : ""

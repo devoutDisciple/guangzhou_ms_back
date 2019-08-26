@@ -51,4 +51,26 @@ module.exports = {
 		str = timeStamp + str;
 		return str;
 	},
+
+	createBackSign: function(obj) {
+		//签名算法（把所有的非空的参数，按字典顺序组合起来+key,然后md5加密，再把加密结果都转成大写的即可）
+		// 		appid: config.appid,	//自己的小程序appid
+		// 		mch_id: config.mch_id,	//自己的商户号
+		// 		nonce_str: PayUtil.getNonceStr(),	//随机字符串
+		// 		out_refund_no: PayUtil.createOrderid(),// 商户退款单号
+		// 		out_trade_no: code, // 商户订单号
+		// 		total_fee: (Number(total_price) * 100).toFixed(0), //商品价格 单位分
+		// 		refund_fee: (Number(total_price) * 100).toFixed(0), // 退款金额
+		// 		//异步接收微信支付结果通知的回调地址，通知url必须为外网可访问的url，不能携带参数。
+		let stringA = "appid="+obj.appid
+			+"&mch_id="+obj.mch_id
+			+"&nonce_str="+obj.nonce_str
+			+"&out_refund_no="+obj.out_refund_no
+			+"&out_trade_no="+obj.out_trade_no
+			+"&refund_fee="+obj.refund_fee
+			+"&total_fee="+obj.total_fee;
+		let stringSignTemp = stringA+"&key=" + obj.key;
+		stringSignTemp = md5(stringSignTemp).toUpperCase();
+		return stringSignTemp;
+	},
 };
