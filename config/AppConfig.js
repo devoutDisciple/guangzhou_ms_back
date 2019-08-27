@@ -10,4 +10,8 @@ module.exports = {
 	// swiperImgFilePath: "/Users/zhangzhen/program/guanzhou/guangzhou_ms/guangzhou_ms_back/public",// swiper图片
 	// swiperPreUrl: "http://localhost:3002/",
 	// goodsPreUrl: "http://localhost:3002/goods/",
+
+	// 打印机设置
+	USER: "1094705507@qq.com", // 打印机后台注册用户名
+	UKEY: "SLb59vd942z9sGRV", // 打印机后台的key
 };

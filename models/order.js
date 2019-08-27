@@ -11,7 +11,7 @@ module.exports = function(sequelize) {
 		},
 		code: {
 			type: Sequelize.STRING(255),
-			allowNull: false
+			allowNull: true
 		},
 		openid: {
 			type: Sequelize.STRING(255),

@@ -5,11 +5,9 @@ const orderModel = order(sequelize);
 const user = require("../models/user");
 const UserModel = user(sequelize);
 orderModel.belongsTo(UserModel, { foreignKey: "openid", targetKey: "openid", as: "userDetail",});
-
 const evaluate = require("../models/evaluate");
 const evaluateModel = evaluate(sequelize);
 orderModel.belongsTo(evaluateModel, { foreignKey: "id", targetKey: "orderid", as: "evaluateDetail",});
-
 let objUtil = require("../util/ObjectUtil");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -173,7 +171,7 @@ module.exports = {
 		let body = req.body;
 		let data = body.data;
 		try {
-			await orderModel.bulkCreate( data, {updateOnDuplicate: ["status"],  ignoreDuplicates: true});
+			await orderModel.bulkCreate(data, {updateOnDuplicate: ["status"],  ignoreDuplicates: true});
 			res.send(resultMessage.success("success"));
 		} catch (error) {
 			console.log(error);
@@ -185,6 +183,7 @@ module.exports = {
 	updateMorePrint: async (req, res) => {
 		let body = req.body;
 		let data = body.data;
+		console.log(data, 888);
 		try {
 			await orderModel.bulkCreate( data, {updateOnDuplicate: ["print"]});
 			res.send(resultMessage.success("success"));

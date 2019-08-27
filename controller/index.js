@@ -13,6 +13,7 @@ const countController = require("./countController");
 const billController = require("./billController");
 const adverController = require("./adverController");
 const rateCountroller = require("./rateCountroller");
+const printController = require("./printController");
 
 const router = (app) => {
 	// 数据汇总
@@ -45,5 +46,7 @@ const router = (app) => {
 	app.use("/bill", billController);
 	// 评价相关
 	app.use("/evaluate", evaluateController);
+	// 打印机
+	app.use("/print", printController);
 };
 module.exports = router;

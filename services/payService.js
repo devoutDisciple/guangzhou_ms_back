@@ -164,5 +164,5 @@ module.exports = {
 			return res.send(resultMessage.success("支付失败"));
 		}
 
-	}
+	},
 };
