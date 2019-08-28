@@ -168,15 +168,14 @@ module.exports = {
 					result.push({
 						id: item.id,
 						goods_id: item.goods_id,
-						shopName: item.shopDetail.name,
+						shopName: item.shopDetail ? item.shopDetail.name : null,
 						shopid: item.shopid,
-						goodsName: item.goodsDetail.name,
+						goods_grade: item.goods_grade,
+						goodsName: item.goodsDetail ? item.goodsDetail.name : "",
 						orderid: item.orderid,
 						username: item.username,
 						avatarUrl: item.avatarUrl,
 						desc: item.desc,
-						shop_grade: item.shop_grade,
-						sender_grade: item.sender_grade,
 						create_time: item.create_time,
 					});
 				}

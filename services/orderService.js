@@ -12,7 +12,6 @@ let objUtil = require("../util/ObjectUtil");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
-
 module.exports = {
 	// // 根据用户查询所有消费金额
 	sumMoney: async (req, res) => {
@@ -242,9 +241,9 @@ module.exports = {
 				}
 			});
 			// 今天订单数据汇总
-			let todayNum = await sequelize.query("select count(id) as count from `order` where to_days(order_time) = to_days(now()) and shopid = ?",
+			let todayNum = await sequelize.query("select count(id) as count from `order` where to_days(order_time) = to_days(now()) and shopid = ? and status != 7",
 				{ replacements: [shopid], type: sequelize.QueryTypes.SELECT });
-			let todayMoney = await sequelize.query("select sum(total_price) as count from `order` where to_days(order_time) = to_days(now()) and shopid = ?",
+			let todayMoney = await sequelize.query("select sum(total_price) as count from `order` where to_days(order_time) = to_days(now()) and shopid = ? and status != 7",
 				{ replacements: [shopid], type: sequelize.QueryTypes.SELECT });
 			res.send(resultMessage.success({orderNum, orderPrice, todayNum, todayMoney}));
 		} catch (error) {
@@ -259,11 +258,13 @@ module.exports = {
 			// 订单总量
 			let orderNum = await orderModel.count();
 			let orderPrice = await orderModel.sum("total_price");
+			orderPrice = Number(orderPrice).toFixed(2);
 			// 今天订单数据汇总
-			let todayNum = await sequelize.query("select count(id) as count from `order` where to_days(order_time) = to_days(now())",
+			let todayNum = await sequelize.query("select count(id) as count from `order` where to_days(order_time) = to_days(now()) and status != 7",
 				{ type: sequelize.QueryTypes.SELECT });
-			let todayMoney = await sequelize.query("select sum(total_price) as count from `order` where to_days(order_time) = to_days(now())",
+			let todayMoney = await sequelize.query("select sum(total_price) as count from `order` where to_days(order_time) = to_days(now()) and status != 7",
 				{ type: sequelize.QueryTypes.SELECT });
+			todayMoney = Number(todayMoney).toFixed(2);
 			res.send(resultMessage.success({orderNum, orderPrice, todayNum, todayMoney}));
 		} catch (error) {
 			console.log(error);
@@ -278,11 +279,11 @@ module.exports = {
 		let str = "";
 		// 查询过去七天，以天为单位
 		if(type == 1) {
-			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, count(id) count from `order` where DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(order_time) group by days order by days DESC;";
+			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, count(id) count from `order` where status != 7 and DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(order_time) group by days order by days DESC;";
 		}
 		// 查询过去一个月，以天为单位
 		if(type == 2) {
-			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, count(id) count from `order` WHERE DATE_FORMAT(order_time, '%Y%m' ) = DATE_FORMAT(CURDATE( ),'%Y%m') group by days order by days DESC;";
+			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, count(id) count from `order` WHERE status != 7 and DATE_FORMAT(order_time, '%Y%m' ) = DATE_FORMAT(CURDATE( ),'%Y%m') group by days order by days DESC;";
 		}
 		// 查询全部数据
 		if(type == 3) str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, count(id) count from `order` group by days order by days DESC;";
@@ -304,14 +305,14 @@ module.exports = {
 		let str = "";
 		// 查询过去七天，以天为单位
 		if(type == 1) {
-			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, count(id) count from `order` where DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(order_time) and shopid=? group by days order by days DESC;";
+			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, count(id) count from `order` where status != 7 and DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(order_time) and shopid=? group by days order by days DESC;";
 		}
 		// 查询过去一个月，以天为单位
 		if(type == 2) {
-			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, count(id) count from `order` WHERE DATE_FORMAT(order_time, '%Y%m' ) = DATE_FORMAT(CURDATE( ),'%Y%m') and shopid=? group by days order by days DESC;";
+			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, count(id) count from `order` WHERE status != 7 and DATE_FORMAT(order_time, '%Y%m' ) = DATE_FORMAT(CURDATE( ),'%Y%m') and shopid=? group by days order by days DESC;";
 		}
 		// 查询全部数据
-		if(type == 3) str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, count(id) count from `order` where shopid = ? group by days order by days DESC;";
+		if(type == 3) str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, count(id) count from `order` where status != 7 and shopid = ? group by days order by days DESC;";
 		try {
 			sequelize.query(str, { replacements: [shopid], type: sequelize.QueryTypes.SELECT }).then(function(projects) {
 				res.send(resultMessage.success(projects));
@@ -329,11 +330,11 @@ module.exports = {
 		let str = "";
 		// 查询过去七天，以天为单位
 		if(type == 1) {
-			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, sum(total_price) as money from `order` where DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(order_time) group by days order by days DESC;";
+			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, sum(total_price) as money from `order` where status != 7 and DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(order_time) group by days order by days DESC;";
 		}
 		// 查询过去一个月，以天为单位
 		if(type == 2) {
-			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, sum(total_price) as money from `order` WHERE DATE_FORMAT(order_time, '%Y%m' ) = DATE_FORMAT(CURDATE( ),'%Y%m') group by days order by days DESC;";
+			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, sum(total_price) as money from `order` WHERE status != 7 and DATE_FORMAT(order_time, '%Y%m' ) = DATE_FORMAT(CURDATE( ),'%Y%m') group by days order by days DESC;";
 		}
 		// 查询全部数据
 		if(type == 3) str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, sum(total_price) as money from `order` group by days order by days DESC;";
@@ -355,14 +356,14 @@ module.exports = {
 		let str = "";
 		// 查询过去七天，以天为单位
 		if(type == 1) {
-			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, sum(total_price) as money from `order` where DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(order_time) and shopid=? group by days order by days DESC;";
+			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, sum(total_price) as money from `order` where status != 7 and DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(order_time) and shopid=? group by days order by days DESC;";
 		}
 		// 查询过去一个月，以天为单位
 		if(type == 2) {
-			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, sum(total_price) as money from `order` WHERE DATE_FORMAT(order_time, '%Y%m' ) = DATE_FORMAT(CURDATE( ),'%Y%m') and shopid=? group by days order by days DESC;";
+			str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, sum(total_price) as money from `order` WHERE status != 7 and DATE_FORMAT(order_time, '%Y%m' ) = DATE_FORMAT(CURDATE( ),'%Y%m') and shopid=? group by days order by days DESC;";
 		}
 		// 查询全部数据
-		if(type == 3) str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, sum(total_price) as money from `order` where shopid = ? group by days order by days DESC;";
+		if(type == 3) str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, sum(total_price) as money from `order` where status != 7 and shopid = ? group by days order by days DESC;";
 		try {
 			sequelize.query(str, { replacements: [shopid], type: sequelize.QueryTypes.SELECT }).then(function(projects) {
 				res.send(resultMessage.success(projects));
@@ -387,7 +388,7 @@ module.exports = {
 			// end_time: body.end_time
 		};
 		if(body.sendtab == 3) {
-			where.status = [3, 5];
+			where.status = [3, 5, 8];
 		}
 		if(body.sendtab == 4) {
 			where.status = [4, 7];
@@ -397,6 +398,9 @@ module.exports = {
 				[Op.between]: [body.start_time, body.end_time]
 			};
 		}
+		body.phone ? where.phone = {
+			[Op.like]: "%" + body.phone + "%"
+		} : null;
 		objUtil.deleteEmptyObject(where, true);
 		console.log(where);
 		body.campus && body.campus != "all" ? where.address = {
