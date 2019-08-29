@@ -12,5 +12,9 @@ router.post("/printOrder", (req, res) => {
 	printService.printOrder(req, res);
 });
 
+// 批量打印 printMoreOrder
+router.post("/printMoreOrder", (req, res) => {
+	printService.printMoreOrder(req, res);
+});
 
 module.exports = router;
