@@ -4,6 +4,10 @@ const Op = Sequelize.Op;
 const sequelize = require("../dataSource/MysqlPoolClass");
 const campus = require("../models/campus");
 const CampusModel = campus(sequelize);
+const shop = require("../models/shop");
+const ShopModel = shop(sequelize);
+const goods = require("../models/goods");
+const GoodsModel = goods(sequelize);
 
 module.exports = {
 	// 获取所有位置信息
@@ -55,6 +59,16 @@ module.exports = {
 			await CampusModel.destroy({
 				where: {
 					id: req.body.id
+				}
+			});
+			await ShopModel.destroy({
+				where: {
+					campus: req.body.name
+				}
+			});
+			await GoodsModel.destroy({
+				where: {
+					position: req.body.name
 				}
 			});
 			res.send(resultMessage.success("success"));

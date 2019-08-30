@@ -8,6 +8,8 @@ const shop = require("../models/shop");
 const ShopModel = shop(sequelize);
 const account = require("../models/account");
 const AccountModel = account(sequelize);
+const goods = require("../models/goods");
+const GoodsModel = goods(sequelize);
 const fs = require("fs");
 const appConfig = require("../config/AppConfig");
 
@@ -98,6 +100,16 @@ module.exports = {
 				}
 			});
 			if(account) return res.send(resultMessage.errorMsg("已有该用户"));
+			// 检测同区域是否有相同的店铺名称
+			let likeShop = await ShopModel.findOne({
+				where: {
+					campus: body.campus,
+					name: body.name
+				}
+			});
+			if(likeShop) {
+				return res.send(resultMessage.errorMsg("该区域已有相同名称店铺！"));
+			}
 			let shop = await ShopModel.create(body);
 			await AccountModel.create({username, password, shopid: shop.id, role: 2});
 			res.send(resultMessage.success("success"));
@@ -150,6 +162,11 @@ module.exports = {
 			await ShopModel.destroy({
 				where: {
 					id: id
+				}
+			});
+			await GoodsModel.destroy({
+				where: {
+					shopid: id
 				}
 			});
 			res.send(resultMessage.success("success"));

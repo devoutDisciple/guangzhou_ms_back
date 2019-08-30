@@ -18,16 +18,21 @@ module.exports = {
 	// 获取同一家商店的所有食物
 	getByShopId: async (req, res) => {
 		let id = req.query.id;
+		let options = {
+			where: {
+				shopid: id
+			},
+			order: [
+				// will return `name`  DESC 降序  ASC 升序
+				["sort", "DESC"],
+			]
+		};
+		let name = req.query.name;
+		name ? options.where.name = {
+			[Op.like]: "%" + name + "%"
+		} : null;
 		try {
-			let goods = await GoodsModel.findAll({
-				where: {
-					shopid: id
-				},
-				order: [
-					// will return `name`  DESC 降序  ASC 升序
-					["sort", "DESC"],
-				]
-			});
+			let goods = await GoodsModel.findAll(options);
 			let result = [];
 			goods.map(item => {
 				result.push(item.dataValues);
@@ -113,6 +118,16 @@ module.exports = {
 				position: body.position,
 				specification: body.specification
 			};
+			// 检测是否有同名商品
+			let likeGoods = await GoodsModel.findOne({
+				where: {
+					shopid: body.shopid,
+					name: body.name
+				}
+			});
+			if(likeGoods) {
+				return res.send(resultMessage.errorMsg("商品名称重复！"));
+			}
 			filename ? params.url = preUrl + filename : null;
 			await GoodsModel.create(params);
 			res.send(resultMessage.success("success"));
