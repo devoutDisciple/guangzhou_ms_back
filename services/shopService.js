@@ -14,6 +14,33 @@ const fs = require("fs");
 const appConfig = require("../config/AppConfig");
 
 module.exports = {
+
+	// 开启或者关闭自动打印
+	startAutoPrint: async (req, res) => {
+		try {
+			let id = req.body.id;
+			let shop = await ShopModel.findOne({
+				where: {
+					id: id
+				}
+			});
+			if(!shop.sn || !shop.key) {
+				return res.send(resultMessage.success("请录入打印机"));
+			}
+			await ShopModel.update({
+				auto_print: req.body.auto_print
+			}, {
+				where: {
+					id: id
+				}
+			});
+			res.send(resultMessage.success("操作成功"));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+
 	// 通过商店id获取商店数据
 	getShopByShopid: async (req, res) => {
 		try {
@@ -28,6 +55,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 获取所有商店列表
 	getAllForSelect: async (req, res) => {
 		try {
@@ -58,6 +86,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 获取所有商店信息
 	getAll: async(req, res) => {
 		try {
@@ -89,6 +118,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 增加店铺
 	addShop: async(req, res) => {
 		try {
@@ -118,6 +148,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 修改店铺
 	updateShop: async(req, res) => {
 		try {
@@ -133,6 +164,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 开店或者关店
 	closeOrOpen: async(req, res) => {
 		try {
@@ -150,6 +182,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 删除店铺
 	deleteShop: async(req, res) => {
 		try {
@@ -175,6 +208,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 获取小程序二维码
 	getAccessCode: async(req, res) => {
 		try {
@@ -213,4 +247,5 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 };

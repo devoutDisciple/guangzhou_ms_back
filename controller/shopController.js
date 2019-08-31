@@ -42,5 +42,10 @@ router.get("/getAccessCode", (req, res) => {
 	shopService.getAccessCode(req, res);
 });
 
+// 是否开启自动打印 StartAutoPrint
+router.post("/startAutoPrint", (req, res) => {
+	shopService.startAutoPrint(req, res);
+});
+
 
 module.exports = router;
