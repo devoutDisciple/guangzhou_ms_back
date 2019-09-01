@@ -61,7 +61,6 @@ module.exports = {
 					openid: params.openid
 				},
 			});
-			console.log(user);
 			let originAddress = user.address;
 			let newAddress = JSON.parse(body.address);
 			// 如果已有地址

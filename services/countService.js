@@ -58,7 +58,6 @@ module.exports = {
 		try {
 			// 获取用户数量
 			// let users = sequelize.query("SELECT * FROM user", { model: userModel }).then(function(userModel){
-			// 	console.log(userModel);
 			// 	// 每条记录都是一个Project 实例
 			// 	res.send(resultMessage.success(users));
 			// select * from `user` where DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(create_time);

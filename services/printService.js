@@ -82,7 +82,6 @@ module.exports = {
 
 			let sn = order.shopDetail.sn;
 			if(!sn) return ress.send(resultMessage.success("请录入打印机编号"));
-			console.log(order);
 			let orderList = JSON.parse(order.order_list) || [];
 			//标签说明：
 			//单标签:
@@ -131,14 +130,14 @@ module.exports = {
 			};
 			var req = http.request(options, function (res) {
 				res.setEncoding("utf-8");
-				res.on("data", function (response) {
+				res.on("data", function () {
 					//response是返回的JSON字符串
 					//服务器返回值，建议要当做日志记录起来
-					console.log(response);
+					console.log();
 				});
 			});
-			req.on("error", function () {
-				console.log("error!");
+			req.on("error", function (error) {
+				console.log(error);
 			});
 			req.write(content);
 			req.end();
@@ -168,8 +167,6 @@ module.exports = {
 				let tempList = JSON.parse(item.order_list) || [];
 				orderList = [...orderList, tempList];
 			});
-			console.log(orders, 1111);
-			console.log(orderList, 2222);
 			//标签说明：
 			//单标签:
 			//"<BR>"为换行,"<CUT>"为切刀指令(主动切纸,仅限切刀打印机使用才有效果)
@@ -226,8 +223,8 @@ module.exports = {
 					console.log(response);
 				});
 			});
-			req.on("error", function () {
-				console.log("error!");
+			req.on("error", function (error) {
+				console.log(error);
 			});
 			req.write(content);
 			req.end();

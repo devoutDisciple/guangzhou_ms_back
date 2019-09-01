@@ -182,7 +182,6 @@ module.exports = {
 	updateMorePrint: async (req, res) => {
 		let body = req.body;
 		let data = body.data;
-		console.log(data, 888);
 		try {
 			await orderModel.bulkCreate( data, {updateOnDuplicate: ["print"]});
 			res.send(resultMessage.success("success"));
@@ -402,7 +401,6 @@ module.exports = {
 			[Op.like]: "%" + body.phone + "%"
 		} : null;
 		objUtil.deleteEmptyObject(where, true);
-		console.log(where);
 		body.campus && body.campus != "all" ? where.address = {
 			[Op.like]: "%" + body.campus + "%"
 		} : null;
@@ -422,7 +420,6 @@ module.exports = {
 			]
 		};
 		objUtil.isEmpty(where) ? null : params.where = where;
-		console.log(params, 99);
 		try {
 			let list = await orderModel.findAll(params);
 			let result = [];
