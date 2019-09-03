@@ -27,4 +27,9 @@ router.get("/getEvaluate", (req, res) => {
 	evaluateService.getEvaluate(req, res);
 });
 
+// 根据订单id获取评价 getEvaluateByOrderId
+router.get("/getEvaluateByOrderId", (req, res) => {
+	evaluateService.getEvaluateByOrderId(req, res);
+});
+
 module.exports = router;

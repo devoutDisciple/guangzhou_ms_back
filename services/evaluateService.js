@@ -43,6 +43,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 通过用户openid查看该用户评价列表
 	getEvaluateByOpenid: async (req, res) => {
 		try {
@@ -71,6 +72,7 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 根据商品id获取评价
 	getEvaluateByGoodsId: async (req, res) => {
 		let goods_id = req.query.goods_id;
@@ -146,6 +148,7 @@ module.exports = {
 		}
 	},
 
+	// 获取全部评价
 	getEvaluate: async (req, res) => {
 		try {
 			// 获取评价
@@ -179,6 +182,46 @@ module.exports = {
 						create_time: item.create_time,
 					});
 				}
+			});
+			res.send(resultMessage.success(result));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+
+	// 根据订单id获取评价
+	getEvaluateByOrderId: async (req, res) => {
+		try {
+			// 获取评价
+			let evaluates = await evaluateModel.findAll({
+				where: {
+					orderid: req.query.id
+				},
+				include: [{
+					model: GoodsModel,
+					as: "goodsDetail",
+				}, {
+					model: shopModel,
+					as: "shopDetail",
+				}],
+				order: [
+					// will return `name`  DESC 降序  ASC 升序
+					["create_time", "DESC"],
+				],
+			});
+			let result = [];
+			evaluates.map(item => {
+				result.push({
+					id: item.id,
+					goods_id: item.goods_id,
+					d: item.goods_grade,
+					goodsName: item.goodsDetail ? item.goodsDetail.name : "",
+					goodsUrl: item.goodsDetail ? item.goodsDetail.url : "",
+					desc: item.desc,
+					create_time: item.create_time,
+					show: item.show
+				});
 			});
 			res.send(resultMessage.success(result));
 		} catch (error) {
