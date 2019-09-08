@@ -447,4 +447,49 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
+	// 查看是否有未派送和退款中订单
+	getOrderByStatusForSendAndPay: async (req, res) => {
+		let shopid = req.query.id;
+		try {
+			let sendNum = await orderModel.count({
+				where: {
+					shopid: shopid,
+					status: 1
+				}
+			});
+			let PayNum = await orderModel.count({
+				where: {
+					shopid: shopid,
+					status: 6
+				}
+			});
+			res.send(resultMessage.success({
+				sendNum, PayNum
+			}));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error({}));
+		}
+	},
+
+	// 查看是否有新的订单
+	getNewOrderByShopId: async (req, res) => {
+		let shopid = req.query.id;
+		try {
+			let newOrderNum = await orderModel.count({
+				where: {
+					shopid: shopid,
+					status: 1
+				}
+			});
+			res.send(resultMessage.success({
+				newOrderNum
+			}));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error({}));
+		}
+	},
+
 };

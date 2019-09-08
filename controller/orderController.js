@@ -77,4 +77,14 @@ router.post("/getOrderByStatusAndPosition", (req, res) => {
 	orderService.getOrderByStatusAndPosition(req, res);
 });
 
+// 查看是否有未派送和退款中订单 getOrderByStatusForSendAndPay
+router.get("/getOrderByStatusForSendAndPay", (req, res) => {
+	orderService.getOrderByStatusForSendAndPay(req, res);
+});
+
+// 查看是否有新的订单  getNewOrderByShopId
+router.get("/getNewOrderByShopId", (req, res) => {
+	orderService.getNewOrderByShopId(req, res);
+});
+
 module.exports = router;
