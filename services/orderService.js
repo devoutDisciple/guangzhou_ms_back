@@ -458,14 +458,14 @@ module.exports = {
 					status: 1
 				}
 			});
-			let PayNum = await orderModel.count({
+			let payNum = await orderModel.count({
 				where: {
 					shopid: shopid,
 					status: 6
 				}
 			});
 			res.send(resultMessage.success({
-				sendNum, PayNum
+				sendNum, payNum
 			}));
 		} catch (error) {
 			console.log(error);
