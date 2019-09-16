@@ -54,6 +54,6 @@ app.listen(80, () => {
 });
 
 // 监听3001端口  本地
-// app.listen(3002, () => {
-// 	console.log(chalk.yellow("server is listenning 3002"));
-// });
+app.listen(3002, () => {
+	console.log(chalk.yellow("server is listenning 3002"));
+});

@@ -8,8 +8,13 @@ const shop = require("../models/shop");
 const ShopModel = shop(sequelize);
 const goods = require("../models/goods");
 const GoodsModel = goods(sequelize);
+const swiper = require("../models/swiper");
+const SwiperModel = swiper(sequelize);
+const car = require("../models/car");
+const CarModel = car(sequelize);
 
 module.exports = {
+
 	// 获取所有位置信息
 	getAll: async (req, res) => {
 		try {
@@ -53,9 +58,11 @@ module.exports = {
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 删除位置信息
 	delete: async (req, res) => {
 		try {
+			let name = req.body.name;
 			await CampusModel.destroy({
 				where: {
 					id: req.body.id
@@ -63,24 +70,32 @@ module.exports = {
 			});
 			await ShopModel.destroy({
 				where: {
-					campus: req.body.name
+					campus: name
 				}
 			});
 			await GoodsModel.destroy({
 				where: {
-					position: req.body.name
+					position: name
 				}
 			});
+			await SwiperModel.destroy({
+				where: {
+					campus: name
+				}
+			});
+
 			res.send(resultMessage.success("success"));
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 修改位置信息
 	update: async (req, res) => {
 		try {
 			let body = req.body;
+			let originName = body.originName;
 			await CampusModel.update({
 				name: body.name,
 				floor: JSON.stringify(body.floor),
@@ -90,12 +105,41 @@ module.exports = {
 					id: body.id
 				},
 			});
+			await ShopModel.update({
+				campus: body.name
+			}, {
+				where: {
+					campus: originName
+				}
+			});
+			await GoodsModel.update({
+				position: body.name
+			}, {
+				where: {
+					position: originName
+				}
+			});
+			await SwiperModel.update({
+				campus: body.name
+			}, {
+				where: {
+					campus: originName
+				}
+			});
+			await CarModel.update({
+				campus: body.name
+			}, {
+				where: {
+					campus: originName
+				}
+			});
 			res.send(resultMessage.success("success"));
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));
 		}
 	},
+
 	// 获取位置信息
 	getPositionByCampus: async (req, res) => {
 		try {
