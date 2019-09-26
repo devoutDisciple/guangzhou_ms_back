@@ -9,7 +9,7 @@ const shopModel = shop(sequelize);
 const AppConfig = require("../config/AppConfig");
 let preUrl = AppConfig.swiperPreUrl;
 let filePath = AppConfig.swiperImgFilePath;
-const images = require("images");
+const ImageDeal = require("../util/ImagesDeal");
 SwiperModel.belongsTo(shopModel, { foreignKey: "shopid", targetKey: "id", as: "shopDetail",});
 const goods = require("../models/goods");
 const goodsModel = goods(sequelize);
@@ -75,9 +75,7 @@ module.exports = {
 			filename ? params.url = preUrl + filename : null;
 			await SwiperModel.create(params);
 			res.send(resultMessage.success("success"));
-			images(`${filePath}/${filename}`).save(`${filePath}/${filename}`, {
-				quality : 20
-			});
+			ImageDeal.dealImages(`${filePath}/${filename}`);
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));
@@ -101,9 +99,7 @@ module.exports = {
 				}
 			});
 			res.send(resultMessage.success("success"));
-			images(`${filePath}/${filename}`).save(`${filePath}/${filename}`, {
-				quality : 20
-			});
+			ImageDeal.dealImages(`${filePath}/${filename}`);
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));

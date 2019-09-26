@@ -9,7 +9,6 @@
     "crypto": "^1.0.1",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
-    "gm": "^1.23.1",
     "images": "^3.0.2",
     "md5": "^2.2.1",
     "multer": "^1.4.1",
@@ -21,6 +20,7 @@
   },
   "devDependencies": {
     "chalk": "^2.4.1",
+    "gm": "^1.23.1",
     "morgan": "^1.9.0",
     "mysql2": "^1.6.5"
   },

@@ -12,7 +12,7 @@ adverModel.belongsTo(ShopModel, { foreignKey: "shop_id", targetKey: "id", as: "s
 const AppConfig = require("../config/AppConfig");
 let preUrl = AppConfig.swiperPreUrl;
 let filePath = AppConfig.swiperImgFilePath;
-const images = require("images");
+const ImageDeal = require("../util/ImagesDeal");
 
 module.exports = {
 	// 获取广告数据
@@ -62,9 +62,7 @@ module.exports = {
 				}
 			});
 			res.send(resultMessage.success("success"));
-			images(`${filePath}/${filename}`).save(`${filePath}/${filename}`, {
-				quality : 20
-			});
+			ImageDeal.dealImages(`${filePath}/${filename}`);
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));

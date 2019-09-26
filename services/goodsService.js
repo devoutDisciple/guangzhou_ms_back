@@ -10,8 +10,9 @@ let preUrl = AppConfig.goodsPreUrl;
 let goodsImgFilePath = AppConfig.goodsImgFilePath;
 const shop = require("../models/shop");
 let filePath = AppConfig.goodsImgFilePath;
-const images = require("images");
+// const gm = require("gm");
 const ShopModel = shop(sequelize);
+const ImageDeal = require("../util/ImagesDeal");
 GoodsModel.belongsTo(ShopModel, { foreignKey: "shopid", targetKey: "id", as: "shopDetail",});
 
 module.exports = {
@@ -92,9 +93,7 @@ module.exports = {
 		try {
 			let UrlPath = preUrl + filename;
 			res.send(resultMessage.success(UrlPath));
-			images(`${filePath}/${filename}`).save(`${filePath}/${filename}`, {
-				quality : 20
-			});
+			ImageDeal.dealImages(`${filePath}/${filename}`);
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));
@@ -131,9 +130,7 @@ module.exports = {
 			filename ? params.url = preUrl + filename : null;
 			await GoodsModel.create(params);
 			res.send(resultMessage.success("success"));
-			images(`${filePath}/${filename}`).save(`${filePath}/${filename}`, {
-				quality : 20
-			});
+			ImageDeal.dealImages(`${filePath}/${filename}`);
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));
@@ -164,9 +161,7 @@ module.exports = {
 				}
 			});
 			res.send(resultMessage.success("success"));
-			images(`${filePath}/${filename}`).save(`${filePath}/${filename}`, {
-				quality : 20
-			});
+			ImageDeal.dealImages(`${filePath}/${filename}`);
 		} catch (error) {
 			console.log(error);
 			return res.send(resultMessage.error([]));
