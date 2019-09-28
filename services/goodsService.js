@@ -92,14 +92,13 @@ module.exports = {
 	uploadDescImg: async (req, res, filename) => {
 		try {
 			let UrlPath = preUrl + filename;
-			ImageDeal.dealImages(`${filePath}/${filename}`);
+			let newFile = `${filePath}/${filename}`;
+			ImageDeal.dealImages(newFile);
 			res.send(resultMessage.success(UrlPath));
 		} catch (error) {
-			console.log(1111);
 			fs.exists(`${filePath}/${filename}`, () => {
 				fs.unlinkSync(`${filePath}/${filename}`);
 			});
-			console.log(error, 111);
 			return res.send(resultMessage.errorMsg("上传文件图片错误!"));
 		}
 	},
