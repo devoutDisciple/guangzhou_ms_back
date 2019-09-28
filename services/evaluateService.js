@@ -61,8 +61,7 @@ module.exports = {
 				result.push({
 					goods_id: item.goods_id,
 					desc: item.desc,
-					shop_grade: item.shop_grade,
-					sender_grade: item.sender_grade,
+					goods_grade: item.goods_grade,
 					create_time: item.create_time
 				});
 			});

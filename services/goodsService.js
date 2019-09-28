@@ -92,11 +92,15 @@ module.exports = {
 	uploadDescImg: async (req, res, filename) => {
 		try {
 			let UrlPath = preUrl + filename;
-			res.send(resultMessage.success(UrlPath));
 			ImageDeal.dealImages(`${filePath}/${filename}`);
+			res.send(resultMessage.success(UrlPath));
 		} catch (error) {
-			console.log(error);
-			return res.send(resultMessage.error([]));
+			console.log(1111);
+			fs.exists(`${filePath}/${filename}`, () => {
+				fs.unlinkSync(`${filePath}/${filename}`);
+			});
+			console.log(error, 111);
+			return res.send(resultMessage.errorMsg("上传文件图片错误!"));
 		}
 	},
 
@@ -132,6 +136,9 @@ module.exports = {
 			res.send(resultMessage.success("success"));
 			ImageDeal.dealImages(`${filePath}/${filename}`);
 		} catch (error) {
+			fs.exists(`${filePath}/${filename}`, () => {
+				fs.unlinkSync(`${filePath}/${filename}`);
+			});
 			console.log(error);
 			return res.send(resultMessage.error([]));
 		}
@@ -163,6 +170,9 @@ module.exports = {
 			res.send(resultMessage.success("success"));
 			ImageDeal.dealImages(`${filePath}/${filename}`);
 		} catch (error) {
+			fs.exists(`${filePath}/${filename}`, () => {
+				fs.unlinkSync(`${filePath}/${filename}`);
+			});
 			console.log(error);
 			return res.send(resultMessage.error([]));
 		}

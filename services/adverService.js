@@ -8,7 +8,7 @@ adverModel.belongsTo(GoodsModel, { foreignKey: "goods_id", targetKey: "id", as: 
 const shop = require("../models/shop");
 const ShopModel = shop(sequelize);
 adverModel.belongsTo(ShopModel, { foreignKey: "shop_id", targetKey: "id", as: "shopDetail",});
-
+const fs = require("fs");
 const AppConfig = require("../config/AppConfig");
 let preUrl = AppConfig.swiperPreUrl;
 let filePath = AppConfig.swiperImgFilePath;
@@ -64,6 +64,9 @@ module.exports = {
 			res.send(resultMessage.success("success"));
 			ImageDeal.dealImages(`${filePath}/${filename}`);
 		} catch (error) {
+			fs.exists(`${filePath}/${filename}`, () => {
+				fs.unlinkSync(`${filePath}/${filename}`);
+			});
 			console.log(error);
 			return res.send(resultMessage.error([]));
 		}

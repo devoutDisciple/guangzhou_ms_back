@@ -19,21 +19,49 @@ module.exports = {
 							num = 1;
 							return clearTimeout(global.timer_myself);
 						}
-						if(num < 5) images(filePath).save(filePath, {
-							quality: Number.parseInt(Math.random() * 10) + 80
-						});
-						if(num >= 5 && num < 10)images(filePath).save(filePath, {
-							quality: Number.parseInt(Math.random() * 10) + 70
-						});
-						if(num >= 10)images(filePath).save(filePath, {
-							quality: Number.parseInt(Math.random() * 10) + 60
-						});
+						if(num < 5) {
+							try {
+								images(filePath).save(filePath, {
+									quality: Number.parseInt(Math.random() * 10) + 80
+								});
+							} catch (error) {
+								fs.exists(filePath, () => {
+									fs.unlinkSync(filePath);
+								});
+								console.log(error);
+							}
+						}
+						if(num >= 5 && num < 10) {
+							try {
+								images(filePath).save(filePath, {
+									quality: Number.parseInt(Math.random() * 10) + 70
+								});
+							} catch (error) {
+								fs.exists(filePath, () => {
+									fs.unlinkSync(filePath);
+								});
+								console.log(error);
+							}
+						}
+						if(num >= 10) {
+							try {
+								images(filePath).save(filePath, {
+									quality: Number.parseInt(Math.random() * 10) + 60
+								});
+							} catch (error) {
+								fs.exists(filePath, () => {
+									fs.unlinkSync(filePath);
+								});
+								console.log(error);
+							}
+						}
 						this.dealImages(filePath);
 					}
 				}, 2000);
 			});
 		} catch (error) {
-			console.log(error);
+			console.log(222);
+			console.log(error, 222);
 		}
 	}
 };
