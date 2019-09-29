@@ -9,11 +9,11 @@ module.exports = {
 			const self = this;
 			fs.stat(filePath, (err, status) => {
 				let size = Number.parseInt(Number(status.size) / 1024);
-				if(size <= 150) {
+				if(size <= 120) {
 					num = 1;
 					return;
 				}
-				if(size >= 150) {
+				if(size >= 120) {
 					num++;
 					if(num > 15) {
 						num = 1;
@@ -21,17 +21,13 @@ module.exports = {
 					}
 					if(num < 5) {
 						try {
-							gm(filePath).size(function(err, value) {
-								if(err) console.log(err);
-								console.log(value, 111);
+							gm(filePath).size(function(error) {
+								if(error) return console.log(error);
 								gm(filePath)
 									.resize(1350, 1000)
 									.noProfile()
-									.write(filePath, function (err) {
-										if (err) {
-											console.log(err);
-											return;
-										}
+									.write(filePath, function (error) {
+										if (error) return console.log(error);
 										self.dealImages(filePath);
 									});
 							});
@@ -45,38 +41,36 @@ module.exports = {
 					}
 					if(num >= 5 && num < 10) {
 						try {
-							gm(filePath).size(function(err, value) {
-								if(err) console.log(err);
-								console.log(value, 2222);
+							gm(filePath).size(function(error, value) {
+								if(error) return console.log(error);
 								gm(filePath)
 									.resize(value.width - 200, value.height - 200)
 									.noProfile()
-									.write(filePath, function (err) {
-										if (err) {
-											console.log(err);
+									.write(filePath, function (error) {
+										if (error) {
+											console.log(error);
 											return;
 										}
 										self.dealImages(filePath);
 									});
 							});
 						} catch (error) {
+							console.log(error);
 							fs.exists(filePath, () => {
 								fs.unlinkSync(filePath);
 							});
-							console.log(error);
 						}
 					}
 					if(num >= 10) {
 						try {
-							gm(filePath).size(function(err, value) {
-								if(err) console.log(err);
-								console.log(value, 333);
+							gm(filePath).size(function(error, value) {
+								if(error) return console.log(error);
 								gm(filePath)
 									.resize(value.width - 500, value.height - 500)
 									.noProfile()
-									.write(filePath, function (err) {
-										if (err) {
-											console.log(err);
+									.write(filePath, function (error) {
+										if (error) {
+											console.log(error);
 											return;
 										}
 										self.dealImages(filePath);
@@ -93,8 +87,7 @@ module.exports = {
 				}
 			});
 		} catch (error) {
-			console.log(222);
-			console.log(error, 222);
+			console.log(error);
 		}
 	}
 };

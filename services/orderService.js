@@ -350,7 +350,6 @@ module.exports = {
 		if(type == 3) str = "select DATE_FORMAT(order_time,'%Y-%m-%d') days, sum(total_price) as money from `order` group by days order by days DESC;";
 		try {
 			sequelize.query(str, { type: sequelize.QueryTypes.SELECT }).then(function(projects) {
-				console.log(projects, 99);
 				if(projects && projects.length != 0) {
 					projects.map(item => {
 						item.money = Number(item.money).toFixed(2);
